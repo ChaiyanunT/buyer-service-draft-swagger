@@ -1,0 +1,328 @@
+openapi: 3.0.3
+info:
+  title: Buyer Service - OpenAPI 3.0
+  version: 1.0.0
+externalDocs:
+  description: Buyer Service draft spec swagger
+  url: http://swagger.io
+servers:
+  - url: "https://proxy.qa.nocnoc-internal.com/buyer-service"
+paths:
+  /v1/user/quotation/summary:
+    post:
+      tags:
+        - Quotation
+      parameters:
+       - name: x-nocnoc-platform
+         in: header
+         schema:
+          type: string
+       - name: x-nocnoc-device-os
+         in: header
+         schema:
+          type: string
+       - name: x-cookie-id
+         in: header
+         schema:
+          type: string
+       - name: x-session-id
+         in: header
+         schema: 
+          type: string
+       - name: x-nocnoc-device-id
+         in: header
+         description: device id generate from FE
+         schema:
+          type: string
+       - name: x-request-id
+         in: header
+         schema:
+          type: string
+       - name: x-nocnoc-id
+         in: header
+         required: true
+         description: nocnoc-id decrypt by local authorizer
+         schema:
+          type: string
+      summary: Calculate price and discount
+      description: Calculate price and discount for both product and shipping
+      operationId: quotationSummary
+      requestBody:
+        description: Sum the final quotation
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/quotationSummaryRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/quotationSummaryResponse'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorResponse'
+        '401':
+          description: Unauthorize
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorResponse'
+components:
+  schemas:
+    baseQuotationRequest:
+      type: object
+      required:
+        - quotationSignature
+        - quotationData
+      properties:
+        quotationSignature:
+          type: string
+          example: hash HMAC
+        quotationData:
+          type: string
+          example: BASE564
+    promotionRequest:
+      allOf:
+        - $ref: '#/components/schemas/baseQuotationRequest'
+      type: object
+      properties:
+        couponCodes:
+          type: array
+          items:
+            type: string
+    errorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            required: ["title", "message"]
+            properties:
+              title:
+                type: string
+              message:
+                type: string
+    ippData:
+      type: object
+      description: "this object will appear if quotation meet ipp criteria"
+      properties:
+        descriptions:
+          type: array       
+          items:
+            type: object
+            required:
+              - isActive
+              - bankCode
+              - mdr
+            properties:
+              bankCode:
+                type: string
+                example: 123
+              bankNameTh:
+                type: string
+                example: บัตรกรุงไทย จำกัด(มหาชน)
+              bankNameEn:
+                example:  Krungthai Card
+              mdr:
+                type: number
+                format: double
+                example: 3.3
+              isActive:
+                type: boolean
+              ippLists:
+                $ref: "#/components/schemas/ippDescriptionItem"
+    ippDescriptionItem:
+        type: object
+        required:
+          - id
+          - term
+          - minAmount
+        properties:
+          id:
+            type: number
+            example: 1
+          term:
+            type: number
+            example: 4
+          nocnocSub:
+            type: boolean
+          sellerSub:
+            type: boolean
+          title:
+            type: string
+            example: 4 เดือน
+          minAmount:
+            type: number
+            example: 3000
+    quotationSummaryRequest:
+      type: object
+      required:
+        - quotationSignature
+        - quotationData
+        - sellers
+      properties:
+        quotationSignature:
+          type: string
+          example: hmac
+        quotationData:
+          type: string
+          example: base64
+        couponCodes:
+          type: array
+          items: 
+            type: string
+          example: [""]
+        sellers:
+          type: array
+          items:
+            type: object
+            required:
+            - id
+            - saleOrders
+            properties:
+              id:
+                type: number
+              saleOrders:
+                type: array
+                items:
+                  type: object
+                  required:
+                  - saleOrderRef
+                  - defaultDeliveryOption
+                  properties:
+                    saleOrderRef:
+                      type: string
+                    defaultDeliveryOption:
+                      type: object
+                      required:
+                        - carrierId
+                      properties:
+                        carrierId:
+                          type: number
+                          example: 12
+        useNocnocPoint:
+          type: boolean
+          example: true
+    quotationSummaryResponse:
+      type: object
+      required: ["data"]
+      properties:
+        data:
+          type: object
+          required: ["appliedPromotions", "totalPrice", "totalDiscount", "totalPriceAfterDiscount", "totalShippingFee", "totalShippingFeeAfterDiscount", "grandTotalDiscount", "grandTotal"]
+          properties:
+            quotationData:
+              type: string
+              example: <base64>
+            quotationSignature:
+              type: string
+              example: <hmac>
+            ipp:
+              $ref: "#/components/schemas/ippData"
+            coupons:
+              type: array
+              items:
+                properties:
+                  couponCode:
+                    type: string
+                    example: "NN1234"
+                  limitApplies:
+                    type: number
+                    example: 1
+                  type:
+                    type: string
+                    example: "NOCNOC_COUPON"
+                  status:
+                    type: string
+                    enum: [VALID, NOTFOUND, ORDER_VALUE_NOT_REACH_MINIMUM]
+                    example: "VALID"
+            nocnocPoint:
+              type: object
+              properties:
+                availablePoint:
+                  type: number
+                  example: 0
+                isNocNocClubMember:
+                  type: boolean
+                  example: true
+                pointBalance:
+                  type: number
+                  example: 0
+                pointValue:
+                  type: number
+                  example: 0
+            totalPrice:
+              type: number
+              example: 56300
+            totalShopCouponDiscount:
+              type: number
+              example: 350
+            totalPlatformDiscount:
+              type: number
+              example: 5630
+            totalPartnerCouponDiscount:
+              type: number
+              example: 0
+            totalVoucherDiscount:
+              type: number
+              example: 1000
+            totalDiscount:
+              type: number
+              example: 6980
+            totalNocnocPointDiscount:
+              type: number
+              example: 40
+            totalPriceAfterDiscount:
+              type: number
+              example: 50320
+            totalShippingFee:
+              type: number
+              example: 1770
+            totalSellerShippingDiscount:
+              type: number
+              example: 10
+            totalPlatformShippingDiscount:
+              type: number
+              example: 270
+            totalShippingFeeAfterDiscount:
+              type: number
+              example: 280
+            grandTotalDiscount:
+              type: number
+              example: 7300
+            grandTotal:
+              type: number
+              example: 50770
+            currency:
+              type: string
+              example: ฿
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: "JWT"
+      
+security:
+  - bearer: []
+
