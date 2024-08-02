@@ -87,6 +87,64 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/errorResponse'
+  /v1/user/order:
+    post:
+      tags:
+        - My Orders
+      parameters:
+        - name: x-nocnoc-platform
+          in: header
+          schema:
+            type: string
+        - name: x-nocnoc-device-os
+          in: header
+          schema:
+           type: string
+        - name: x-cookie-id
+          in: header
+          schema:
+            type: string
+        - name: x-session-id
+          in: header
+          schema: 
+            type: string
+        - name: x-nocnoc-device-id
+          in: header
+          description: device id generate from FE
+          schema:
+            type: string
+        - name: x-request-id
+          in: header
+          schema:
+            type: string
+        - name: x-nocnoc-id
+          in: header
+          required: true
+          description: nocnoc-id decrypt by local authorizer
+          schema:
+            type: string
+        - name: CF-Request-ID
+          in: header
+          description: cloudflare request id
+          schema:
+            type: string
+      summary: Get user order lists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userOrderListRequest'
+        required: true
+      responses: 
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userOrderListResponse'
+
+      
+
 components:
   schemas:
     baseQuotationRequest:
@@ -110,6 +168,251 @@ components:
           type: array
           items:
             type: string
+    userOrderListRequest:
+        type: object
+        properties:
+          lang:
+            type: string
+            example: th
+          userType:
+            type: string
+            example: BUYER
+            enum:
+              - BUYER
+              - ADMIN
+          locale:
+            type: string
+            example: th
+            enum:
+              - th
+              - en
+          userId:
+            type: number
+            example: 10
+          limit:
+            type: number
+            example: 10
+          page:
+            type: number
+            example: 1
+          tabType:
+            type: string
+            example: OPEN
+          itemType:
+            type: string
+            example: sale-orders
+          filter:
+            type: object
+            properties:
+              searchTerm:
+                type: string
+              orderStatus:
+                type: string
+                example: PAYMENT_PENDING
+    userOrderListResponse:
+      type: object
+      required:
+        - status
+        - data
+      properties:
+        status:
+          type: string 
+          example: SUCCESS
+          enum:
+            - SUCCESS
+            - FAILED
+        data:
+          type: object
+          properties:
+            limit:
+              type: number
+              example: 10
+            page:
+              type: number
+              example: 1
+            tabType:
+              type: string
+              example: OPEN
+            itemType:
+              type: string
+              example: sale-orders
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/userOrderItem'
+            cancellable:
+              type: boolean
+            extraInfo:
+              $ref: '#components/schemas/userOrderExtraInfo'
+        errors:
+          type: object
+          properties:
+            code:
+              type: string
+              example: forbidden
+            ref:
+              type: string
+            msg:
+              type: string
+    userOrderExtraInfo:
+      type: object
+      properties:
+        statusFilter:
+          $ref: '#/components/schemas/userOrderStatusFilter'
+        cancelReason:
+          $ref: '#/components/schemas/userOrderCancelReason'
+    
+    userOrderStatusFilter:
+      type: object
+      properties:
+        field:
+          type: string
+          example: "orderStatus"
+        options:
+          type: array
+          items:
+            type: string
+          example: 
+            - "ALL_OPEN_STATUS"
+            - "PAYMENT_PENDING"
+            - "PAYMENT_EXPIRED"
+            - "ON_HOLD"
+            - "PLACED"
+            - "ACCEPTED"
+            - "READY_TO_SHIP"
+            - "IN_TRANSIT"
+
+    userOrderCancelReason:
+      type: object
+      properties:
+        ALL:
+          type: array
+          items:
+            $ref: '#/components/schemas/cancelReasonItem'
+
+    cancelReasonItem:
+      type: object
+      properties:
+        code:
+          type: string
+          example: "SELLER_REQUESTED_EXTEND_DELIVERY_TIME"
+        text:
+          type: string
+          example: "Seller requested to extend the delivery time"
+        sequence:
+          type: integer
+          example: 800
+    userOrderItem:
+      type: object
+      properties:
+        orderNo:
+          type: string
+          example: "NN-3D34HV3YLDSWV"
+        userId:
+          type: string
+          example: "6565"
+        orderPlacedDate:
+          type: string
+          nullable: true
+          example: ""
+        orderPlacedTime:
+          type: string
+          nullable: true
+          example: ""
+        totalAmount:
+          type: string
+          format: decimal
+          example: "4000.00"
+        billingAddress:
+          type: string
+          example: ""
+        retryPaymentDueTime:
+          type: integer
+          format: int64
+          example: 1722509062000000000
+        deliveryAddress:
+          $ref: '#/components/schemas/deliveryAddress'
+        orderCanCancel:
+          type: boolean
+          example: true
+        buyerCanCancelShipment:
+          type: boolean
+          example: true
+        canRetryPay:
+          type: boolean
+          example: true
+        paidOrder:
+          type: boolean
+          example: false
+        paymentSlipUrl:
+          type: string
+          example: ""
+        paymentReference:
+          type: string
+          format: uuid
+          example: "543f1881-688d-4b4c-9ce4-7ce74963552a"
+        paymentType:
+          type: string
+          example: "CARD"
+        status:
+          type: string
+          example: "PAYMENT_PENDING"
+    deliveryAddress:
+      type: object
+      properties:
+        addressIdfier:
+          type: string
+          example: "UNIQUE_ADDRESS_001"
+        addressLine1:
+          type: string
+          example: "123 Example St"
+        addressLine2:
+          type: string
+          example: ""
+        fullName:
+          type: string
+          example: "John Doe"
+        phoneNo:
+          type: string
+          example: "+66910396309"
+        city:
+          type: string
+          example: "Pathum Thani"
+        state:
+          type: string
+          example: "string"
+        country:
+          type: string
+          example: "Countryland"
+        zipCode:
+          type: string
+          example: "12130"
+        subDistrictCode:
+          type: string
+          example: "130601"
+        subDistrictName:
+          type: string
+          example: "Tambon Khu Khot"
+        districtCode:
+          type: string
+          example: "1306"
+        districtName:
+          type: string
+          example: "Amphoe Lam Luk Ka"
+        additionalPhoneNo:
+          type: string
+          example: "string"
+        landmark:
+          type: string
+          example: "Near the central mall"
+        addressType:
+          type: string
+          example: "Home"
+        alternateAddress:
+          type: string
+          example: "string"    
+
+
     errorResponse:
       type: object
       properties:
