@@ -87,7 +87,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/errorResponse'
-  /v1/user/order:
+  /v1/user/my-order:
     post:
       tags:
         - My Orders
@@ -142,7 +142,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/userOrderListResponse'
-
+  /v1/user/my-order/{userId}/{orderNo}:
+    get:
+      tags:
+        - My Orders
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: orderNo
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/shipmentDetailResponse'
+        '403':
+          description: Forbidden response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/shipmentDetailErrorResponse'
+        '401':
+          description: Unauthorize response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/shipmentDetailErrorResponse'
+        '404':
+          description: Unauthorize response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/shipmentDetailErrorResponse'
       
 
 components:
@@ -620,6 +659,339 @@ components:
             currency:
               type: string
               example: ฿
+    shipmentDetailResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: SUCCESS
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/shipment'
+    shipmentDetailErrorResponse:
+        type: object
+        properties:
+          status:
+            type: string
+            example: FAILED
+          errors:
+            type: array
+            items:
+              type: object
+              properties:
+                code:
+                  type: string
+                  example: Forbidden
+                ref:
+                  type: string
+                msg:
+                  type: string
+    shipment:
+      type: object
+      properties:
+        shipmentId:
+          type: integer
+        shipmentIdfier:
+          type: string
+        shipByDate:
+          type: string
+          nullable: true
+        shipByDateRaw:
+          type: string
+          nullable: true
+        expectedMinDeliveryDate:
+          type: string
+        expectedMaxDeliveryDate:
+          type: string
+        cancelledDate:
+          type: string
+          nullable: true
+        expectedMinDeliveryDateRaw:
+          type: string
+        expectedMaxDeliveryDateRaw:
+          type: string
+        expectedDeliveryDateRaw:
+          type: string
+        actualDeliveryDateRaw:
+          type: string
+          nullable: true
+        actualDeliveryDate:
+          type: string
+          nullable: true
+        uploadedInvoice:
+          type: boolean
+        orderNo:
+          type: string
+        shipmentStatus:
+          type: string
+        trackingInfoProvided:
+          type: boolean
+        cancelReason:
+          type: string
+        shippingMethod:
+          type: string
+        sellerName:
+          type: string
+        sellerShopName:
+          type: string
+        carrierName:
+          type: string
+        carrierLogo:
+          type: string
+        expectedPickupDate:
+          type: string
+          nullable: true
+        expectedDeliveryDate:
+          type: string
+        customerReqDeliveryDate:
+          type: string
+          nullable: true
+        customerReqDeliveryDateRaw:
+          type: string
+          nullable: true
+        sellerId:
+          type: string
+        downloadInvoiceUrl:
+          type: string
+        totalDiscount:
+          type: number
+          nullable: true
+        totalAmount:
+          type: string
+        installationCost:
+          type: number
+        readyToShip:
+          type: boolean
+        billingAddress:
+          type: string
+        shipmentStatusCode:
+          type: string
+        freeSampleShipment:
+          type: boolean
+        buyerCanCancel:
+          type: boolean
+        buyerConditionalCancel:
+          type: boolean
+        cancellable:
+          type: boolean
+        paidOrder:
+          type: boolean
+        deliveryInProgress:
+          type: boolean
+        trackingNumbers:
+          type: array
+          items:
+            type: string
+          nullable: true
+        madeToProduct:
+          type: boolean
+        userId:
+          type: string
+        createdUserId:
+          type: integer
+        invoiceOrigFileName:
+          type: string
+          nullable: true
+        buyerPickupOpted:
+          type: boolean
+        couponCode:
+          type: string
+        note:
+          type: string
+        totalSavings:
+          type: number
+        installation:
+          type: boolean
+        listShipmentItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/shipmentItem'
+    shipmentItem:
+      type: object
+      properties:
+        skuNumber:
+          type: string
+        skuId:
+          type: string
+        skuName:
+          type: string
+        productWarranty:
+          type: string
+        quantity:
+          type: string
+        salePrice:
+          type: string
+        productInfo:
+          $ref: '#/components/schemas/productInfo'
+        itemId:
+          type: integer
+        imageUrl:
+          type: string
+        userReviewAvailable:
+          type: boolean
+        userReviewId:
+          type: integer
+        couponCode:
+          type: string
+        unit:
+          type: string
+        installationOrderId:
+          type: string
+          nullable: true
+        installationType:
+          type: string
+          nullable: true
+        categoryId:
+          type: integer
+        productionLeadTime:
+          type: integer
+        size:
+          type: string
+        weightInfo:
+          type: string
+        totalWeightInfo:
+          type: string
+        shippingNote:
+          type: string
+        mpn:
+          type: string
+        ratingTierThreshold:
+          type: integer
+        customMade:
+          type: boolean
+        sample:
+          type: boolean
+        productKind:
+          type: string
+    productInfo:
+      type: object
+      properties:
+        title:
+          type: string
+        name:
+          type: string
+        desc:
+          type: string
+        id:
+          type: integer
+        brand:
+          $ref: '#/components/schemas/brand'
+        skuId:
+          type: integer
+        collectionId:
+          type: integer
+        skuNumber:
+          type: string
+        skuName:
+          type: string
+        sellerId:
+          type: integer
+        sellerName:
+          type: string
+          nullable: true
+        shopName:
+          type: string
+        categoryId:
+          type: integer
+        inStock:
+          type: boolean
+        image:
+          type: string
+        customMade:
+          type: boolean
+        comingSoon:
+          type: boolean
+        lowStock:
+          type: boolean
+        price:
+          type: number
+        productSalePrice:
+          type: number
+          nullable: true
+        salePriceEndDate:
+          type: string
+          nullable: true
+        unit:
+          type: string
+        minQuantity:
+          type: integer
+        bulkQuantity:
+          type: integer
+          nullable: true
+        bulkPrice:
+          type: number
+          nullable: true
+        priceUnit:
+          type: string
+          nullable: true
+        originalPrice:
+          type: number
+        originalQuantity:
+          type: integer
+        cheapestSince:
+          type: string
+          nullable: true
+        priceEffectiveOn:
+          type: string
+          nullable: true
+        pricePromotionStartDate:
+          type: string
+          nullable: true
+        pricePromotionEndDate:
+          type: string
+          nullable: true
+        freeShippingMov:
+          type: number
+          nullable: true
+        unitDiscount:
+          type: number
+        freeShippingAssured:
+          type: boolean
+        imageUrl:
+          type: string
+    brand:
+      type: object
+      properties:
+        image:
+          type: string
+        brandType:
+          type: object
+          properties:
+            code:
+              type: string
+            value:
+              type: string
+        code:
+          type: integer
+        createdByAPI:
+          type: boolean
+          nullable: true
+        brandID:
+          type: string
+          nullable: true
+        ownerSupplierId:
+          type: string
+        isGlobal:
+          type: boolean
+          nullable: true
+        o_id:
+          type: integer
+        smallLogo:
+          type: object
+          properties:
+            imgUrl:
+              type: string
+            imgWidth:
+              type: integer
+            imgHeight:
+              type: integer
+        shortDesc:
+          type: string
+        shortName:
+          type: string
+        value:
+          type: string
   securitySchemes:
     bearer:
       type: http
