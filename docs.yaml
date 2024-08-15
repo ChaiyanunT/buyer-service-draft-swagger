@@ -241,7 +241,7 @@ paths:
   /v1/user/quotation:
     post:
       tags:
-        - Create Quotation
+        - Quotation
       summary: Create Quotation
       description: ''
       operationId: Create Quotation
@@ -316,7 +316,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseModel'
     put:
       tags:
-        - Update Quotation
+        - Quotation
       summary: Update Quotation
       description: ''
       operationId: Update Quotation
