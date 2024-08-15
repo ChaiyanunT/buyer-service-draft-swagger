@@ -1526,6 +1526,18 @@ components:
         currency:
           type: string
           example: ฿
+        categoryId:
+            type: number
+            example: 12245
+        category:
+            type: string
+            example: Electronic Appliances
+        subCategory:
+            type: string
+            example: Air Conditioners
+        subSubCategory:
+            type: string
+            example: Air Conditioner  
     SellerDetail:
       type: object
       required:
@@ -2159,7 +2171,18 @@ components:
         currency:
           type: string
           example: ฿
-
+        categoryId:
+            type: number
+            example: 12245
+        category:
+            type: string
+            example: Electronic Appliances
+        subCategory:
+            type: string
+            example: Air Conditioners
+        subSubCategory:
+            type: string
+            example: Air Conditioner  
     UnavailableProductUnavailable:
       type: object
       properties:
