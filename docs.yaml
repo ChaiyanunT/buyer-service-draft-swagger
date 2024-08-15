@@ -66,7 +66,33 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errorResponse'
+                oneOf:
+                  - $ref: '#/components/schemas/errorResponse'
+              examples:
+                InvalidParameter:
+                  summary: invalid parameter
+                  value:
+                    errors:
+                      title: "invalid_parameter"
+                      message: "Invalid carrierId, please check request body"
+                InvalidSignature:
+                  summary: invalid signature
+                  value:
+                    errors:
+                      title: "invalid_signature"
+                      message: "Invalid quotationSignature, plase check request body"
+                InvalidDeliveryOption:
+                  summary: invalid delivery option
+                  value:
+                    errors:
+                      title: "invalid_delivery_option"
+                      message: "delivery option not found"
+                InvalidQuotationData:
+                  summary: invalid quotation data
+                  value:
+                    errors:
+                      title: "invalid_quotation_data"
+                      message: "Cannot decode quotationData, plase check request body"
         '401':
           description: Unauthorize
         '404':
@@ -86,7 +112,35 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errorResponse'
+                oneOf:
+                  - $ref: '#/components/schemas/errorResponse'
+              examples:
+                ExternalServerError:
+                  summary: Internal server error
+                  value:  
+                    errors:
+                      title: "internal_server_error"
+                      message: "Something wrong, or {{some error message}}"
+                UnknownPromotionBusinessType:
+                  summary: Unknown promotion business type
+                  value:  
+                    errors:
+                      title: "unknown_promotion_business_type"
+                      message: "Unknown promotion business type"
+        '502':
+          description: External Server Error
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/errorResponse'
+              examples:
+                ExternalServerError:
+                  summary: External server error
+                  value:  
+                    errors:
+                      title: "external_server_error"
+                      message: "[Promotion] Get seller promotion sku pricing has error"
   /v1/user/my-order:
     post:
       tags:
@@ -586,6 +640,9 @@ components:
               type: array
               items:
                 properties:
+                  promotionId: 
+                    type: number
+                    example: 12345678
                   couponCode:
                     type: string
                     example: "NN1234"
