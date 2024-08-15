@@ -238,6 +238,158 @@ paths:
                 $ref: '#/components/schemas/shipmentDetailErrorResponse'
       
 
+  /v1/user/quotation:
+    post:
+      tags:
+        - Create Quotation
+      summary: Create Quotation
+      description: ''
+      operationId: Create Quotation
+      parameters:
+        - name: x-nocnoc-platform
+          in: header
+          description: app / web
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-device-os
+          in: header
+          description: android, ios, desktop, tablet, mobile
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-cookie-id
+          in: header
+          description: Required when x-nocnoc-platform is web
+          required: false
+          schema:
+            type: string 
+        - name: x-nocnoc-session-id
+          in: header
+          description: Required when x-nocnoc-platform is web
+          required: false
+          schema:
+            type: string 
+        - name: Accept-Language
+          in: header
+          description: Not Required But Default value en
+          required: false
+          schema:
+            type: string 
+        - name: Authorization
+          in: header
+          description: Token From Login
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+               $ref: '#/components/schemas/CreateQuotationRequest'
+      responses:
+        '200':
+          description: products with delivery options
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateQuotationResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseModel'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseModel'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseModel'
+    put:
+      tags:
+        - Update Quotation
+      summary: Update Quotation
+      description: ''
+      operationId: Update Quotation
+      parameters:
+        - name: x-nocnoc-platform
+          in: header
+          description: app / web
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-device-os
+          in: header
+          description: android, ios, desktop, tablet, mobile
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-cookie-id
+          in: header
+          description: Required when x-nocnoc-platform is web
+          required: false
+          schema:
+            type: string 
+        - name: x-nocnoc-session-id
+          in: header
+          description: Required when x-nocnoc-platform is web
+          required: false
+          schema:
+            type: string 
+        - name: Accept-Language
+          in: header
+          description: Not Required But Default value en
+          required: false
+          schema:
+            type: string 
+        - name: Authorization
+          in: header
+          description: Token From Login
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+               $ref: '#/components/schemas/UpdateQuotationRequest'
+      responses:
+        '200':
+          description: products with delivery options
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateQuotationResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseModel'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseModel'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseModel'    
+    
 components:
   schemas:
     baseQuotationRequest:
@@ -1049,6 +1201,498 @@ components:
           type: string
         value:
           type: string
+    CreateQuotationRequest:
+      required:
+        - sellers
+        - addressId
+      type: object
+      properties:
+        addressId:
+          type: integer
+          example: 1
+        couponCodes:
+          type: array
+          items:
+            type: string
+            example: "1234"
+        sellers:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/CreateQuotationDetail'
+    CreateQuotationDetail:
+      type: object
+      required:
+        - sellerId
+        - products
+      properties:
+        sellerId:
+          type: string
+          example: 123
+        products:
+          type: array
+          items:
+            type: object
+            required:
+              - skuNumber
+              - quantity
+            properties:
+              skuNumber:
+                type: string
+                example: "123456"
+              title:
+                type: string
+                example: "tv 42 inch"
+              quantity:
+                type: integer
+                example: 10
+    CreateQuotationResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          required:
+            - quotation
+            - userSelection
+          properties:
+            quotationSignature:
+              type: string
+              example: hmac
+            quotationData:
+              type: string
+              example: base64
+            quotation:
+              type: object
+              $ref: '#/components/schemas/QuotationDetail'
+            invalidProducts:
+              type: array
+              items:
+                $ref: '#/components/schemas/invalidProduct'    
+    UpdateQuotationRequest:
+      required:
+        - quotationData
+        - quotationSignature
+      type: object
+      properties:
+        quotationSignature:
+          type: string
+          example: hmac
+        quotationData:
+          type: string
+          example: base64
+        addressId:
+              type: number
+              example: 11150
+        invalidProducts:
+              type: array
+              items:
+                type: object
+                properties:
+                  skuNumber:
+                    type: string
+                    example: 123
+                  quantity:
+                    type: number
+                    example: 5
+                  sellerId:
+                    type: number
+                    example: 1234
+                    required:
+                    - skuNumber
+                    - quantity
+                    - sellerId  
+
+    SellerDetailRequest:
+      type: object
+      required:
+        - id
+        - saleOrders
+      properties:
+        id:
+          type: string
+          example: 10
+        saleOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/SaleOrderDetailRequeset'
+    SaleOrderDetailRequeset:
+      type: object
+      required:
+        - saleOrderRef
+        - defaultDeliveryOption
+      properties:
+        saleOrderRef:
+          type: string
+          example: 1847C5D06DF-182AA283221-1668533823437
+
+        defaultDeliveryOption:
+          type: object
+          required:
+            - carrierId
+          properties:
+           carrierId:
+            type: number
+            example: 12
+    UpdateQuotationResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          required:
+            - quotation
+            - quotationSignature
+            - quotationData
+          properties:
+            quotationSignature:
+              type: string
+              example: hmac
+            quotationData:
+              type: string
+              example: base64
+            quotation:
+              type: object
+              $ref: '#/components/schemas/QuotationDetail'
+            invalidProducts:
+              type: array
+              items:
+                $ref: '#/components/schemas/invalidProduct'
+    ErrorResponseModel:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ErrorDetail'
+    ErrorDetail:
+      type: object
+      required:
+        - title
+        - detail
+      properties:
+        title:
+          type: string
+          format: string
+          example: title
+        detail:
+          type: string
+          format: string
+          example: detail    
+    UpdateQuotationDetail:
+      type: object
+      required:
+        - sellerId
+        - products
+      properties:
+        sellerId:
+          type: string
+          example: 123
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              skuNumber:
+                type: string
+                example: "123456"
+              quantity:
+                type: integer
+                example: 10
+    QuotationDetail:
+      type: object
+      required:
+        - quotationId
+        - addressId
+        - sellers
+      properties:
+        quotationId:
+          type: string
+          example: MMDD-{{timestamp}}
+        addressId:
+          type: number
+          example: 12
+        sellers:
+          type: array
+          items:
+            $ref: '#/components/schemas/SellerDetail'
+    invalidProduct:
+      type: object
+      required:
+        - skuNumber
+        - type
+      properties:
+        skuNumber:
+          type: string
+          example: 123456
+        type:
+          type: string
+          example: OUT_OF_STOCK | UNAVAILABLE | OUT_OF_AREA | QUANTITY_OVER_AVAIABLE_STOCK | QUANTITY_LESS_THAN_MIN_QUANTIY
+        quantity:
+          type: number
+          example: 5
+        sellerId:
+          type: number
+          example: 1234
+        price:
+          type: number
+          example: 12850.58
+        priceOriginal:
+          type: number
+          example: 22850.58
+        title:
+          type: string
+          example: สินค้า
+        imageUrl:
+          type: string
+          example: http://cdn.nocnoc.com
+        collectionName:
+          type: string
+          example: white ,1
+        currency:
+          type: string
+          example: ฿
+    SellerDetail:
+      type: object
+      required:
+        - id
+        - name
+        - saleOrders
+      properties:
+        id:
+          type: string
+          example: 10
+        name:
+          type: string
+          example: "nocnoc"
+        logo:
+          type: string
+          example: "http://cdn.nocnoc.com"
+        pageUrl:
+          type: string
+          example: "http://cdn.nocnoc.com"
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagDetail'
+        promotion:
+          type: object
+          properties:
+            shopPromotion:
+              type: object
+              properties:
+                discount:
+                  type: number
+                  format: float
+                  example: 125.51
+        saleOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/SaleOrderDetail'
+    SaleOrderDetail:
+      type: object
+      required:
+        - products
+        - saleOrderRef
+        - defaultDeliveryOption
+        - deliveryOptions
+      properties:
+        saleOrderRef:
+          type: string
+          example: 1847C5D06DF-182AA283221-1668533823437
+
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductDetail'
+        defaultDeliveryOption:
+          type: object
+          required:
+            - carrierId
+          properties:
+           carrierId:
+            type: number
+            example: 12
+        deliveryOptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeliveryOptionDetail'
+    ProductDetail:
+      type: object
+      required:
+        - skuNumber
+        - price
+        - priceOriginal
+        - currency
+      properties:
+        skuNumber:
+          type: string
+          example: 120123
+        title:
+          type: string
+          example: https://cdn.nocnoc.com
+        pageUrl:
+          type: string
+          example: https://cdn.nocnoc.com
+        imageUrl:
+          type: string
+          example: https://cdn.nocnoc.com
+        badges:
+          type: array
+          items:
+            $ref: '#/components/schemas/BadgeDetail'
+        price:
+          type: number
+          example: 120.12
+        priceOriginal:
+          type: number
+          example: 120.12
+        currency:
+          type: string
+          example: ฿
+        quantity:
+          type: integer
+          example: 10
+        collectionName:
+          type: string
+          example: white ,1
+        categoryId:
+          type: number
+          example: 12245
+        category:
+          type: string
+          example: Electronic Appliances
+        subCategory:
+          type: string
+          example: Air Conditioners
+        subSubCategory:
+          type: string
+          example: Air Conditioner
+    BadgeDetail:
+      type: object
+      required:
+        - backgroundColor
+        - textColor
+        - borderColor
+        - type
+        - name
+        - key
+      properties:
+        key:
+          type: string
+          example: example
+        name:
+          type: string
+          example: example
+        type:
+          type: string
+          example: badge
+        backgroundColor:
+          type: string
+          example: hex
+        borderColor:
+          type: string
+          example: hex
+        textColor:
+          type: string
+          example: hex
+        items:
+          type: array
+          items:
+            type: object
+            required:
+              - iconUrl
+              - title
+              - description
+            properties:
+              iconUrl:
+                type: string
+                example: "http://cdn.nocnoc.com"
+              title:
+                type: string
+                example: ออกใบกำกับภาษีได้
+              description:
+                type: string
+                example: สามารถออกใบกำกับภาษีได้
+
+          
+    TagDetail:
+      type: object
+      required:
+        - iconUrl
+      properties:
+        key:
+          type: string
+          example: quality-shop
+        name:
+          type: string
+          example: quality-shop
+        iconUrl:
+          type: string
+          example: "http://cdn.nocnoc.com"
+    DeliveryOptionDetail:
+      type: object
+      required:
+        - carrierId
+        - carrierName
+        - finalShippingCost
+        - shippingCost
+        - currency
+        - title
+        - description
+        - minExpectedDeliveryTime
+        - maxExpectedDeliveryTime
+        - expectedDeliveryDateLabel
+        - expectedDeliveryDate
+      properties:
+        carrierId:
+          type: integer
+          example: 1
+        carrierName:
+          type: string
+          example: Kerry
+        minExpectedDeliveryTime:
+          type: string
+          format: date-time
+        maxExpectedDeliveryTime:
+          type: string
+          format: date-time
+        expectedDeliveryDateLabel: 
+          type: string
+          example: 'รับได้ตั้งแต่'
+        expectedDeliveryDate: 
+          type: string
+          example: '25 เม.ย.65 - 30 เม.ย. 65'
+
+        finalShippingCost:
+          type: number
+          example: 10
+        shippingCost:
+          type: number
+          example: 50
+        platformShippingDiscount:
+          type: number
+          example: 100
+        sellerShippingDiscount:
+          type: number
+          example: 20
+        optionType:
+          type: string
+          example: standardDelivery
+        title:
+          type: string
+          example: "<tag>จัดส่งโดยร้านค้า</tag>"
+        description:
+          type: string
+          example: "<tag>บริการโดยรถขนส่ง</tag>"
+        warehouseAddress:
+          type: string
+          example: "22 ซอยสามัคคี 3 ถนนประชาชื่น แขวง ท่าทราย เขตห้วยขวาง กรุงเทพมหานคร"
+        carrierType:
+          type: string
+          example: standard
+        currency:
+          type: string
+          example: ฿
   securitySchemes:
     bearer:
       type: http
