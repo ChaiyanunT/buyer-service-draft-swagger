@@ -241,7 +241,7 @@ paths:
   /v1/user/quotation:
     post:
       tags:
-        - Create Quotation
+        - Quotation
       summary: Create Quotation
       description: ''
       operationId: Create Quotation
@@ -316,7 +316,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseModel'
     put:
       tags:
-        - Update Quotation
+        - Quotation
       summary: Update Quotation
       description: ''
       operationId: Update Quotation
@@ -390,6 +390,81 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponseModel'    
     
+  /v1/user/cart:
+    get:
+      tags:
+        - Cart
+      summary: Get Cart
+      parameters:
+        - name: x-nocnoc-platform
+          in: header
+          description: app / web
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-device-os
+          in: header
+          description: android, ios, desktop, tablet, mobile
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-cookie-id
+          in: header
+          description: Required when x-nocnoc-platform is web
+          required: false
+          schema:
+            type: string 
+        - name: x-nocnoc-session-id
+          in: header
+          description: Required when x-nocnoc-platform is web
+          required: false
+          schema:
+            type: string 
+        - name: x-nocnoc-device-id
+          in: header
+          description: Required in guest mode
+          required: false
+          schema:
+            type: string 
+        - name: Accept-Language
+          in: header
+          description: Not Required But Default value en
+          required: false
+          schema:
+            type: string 
+        - name: Authorization
+          in: header
+          description: Token From Login
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseModel'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseModel'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseModel'  
 components:
   schemas:
     baseQuotationRequest:
@@ -1693,6 +1768,401 @@ components:
         currency:
           type: string
           example: ฿
+    CartResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Data'
+        unavailableProducts:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/UnavailableProductOutOfStock'
+              - $ref: '#/components/schemas/UnavailableProductUnavailable'
+    Data:
+      type: object
+      properties:
+        cartId:
+          type: string
+          example: 10
+        totalItemCount:
+          type: integer
+          example: 139
+        sellers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Seller'
+        announcements:
+          type: array
+          items:
+            $ref: '#/components/schemas/Announcement'
+
+    Seller:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 67614
+        name:
+          type: string
+          example: ABC
+        logo:
+          type: string
+          format: uri
+          example: https://qa-cdn.nocnoc-internal.com/static-content/assets/portal-assets/67614/product/images/107/nnfreeshipping_656421862fb14__100x100.jpg
+        pageUrl:
+          type: string
+          format: uri
+          example: https://qa-cdn.nocnoc-internal.com/static-content/assets/portal-assets/67614/product/images/107/nnfreeshipping_656421862fb14__100x100.jpg
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        promotions:
+          $ref: '#/components/schemas/Promotions'
+
+    Tag:
+      type: object
+      properties:
+        key:
+          type: string
+          example: quality-shop
+        name:
+          type: string
+          example: quality-shop
+        iconUrl:
+          type: string
+          format: uri
+          example: http://cdn.nocnoc.com/2
+
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ggghh-dsad-sdfdsf
+        active:
+          type: boolean
+          example: false
+        skuNumber:
+          type: string
+          example: 12005147
+        selected:
+          type: boolean
+          example: true
+        title:
+          type: string
+          example: "TEST: NocNoc Promo_TH Shipping Promotion"
+        pageUrl:
+          type: string
+          format: uri
+          example: https://qa-cdn.nocnoc-internal.com/static-content/assets/portal-assets/67614/product/images/107/nnfreeshipping_656421862fb14__100x100.jpg
+        imageUrl:
+          type: string
+          format: uri
+          example: https://qa-cdn.nocnoc-internal.com/static-content/assets/portal-assets/67614/product/images/107/nnfreeshipping_656421862fb14__100x100.jpg
+        badges:
+          type: array
+          items:
+            $ref: '#/components/schemas/Badge'
+        price:
+          type: number
+          format: float
+          example: 12850.12
+        priceOriginal:
+          type: number
+          format: float
+          example: 12900.10
+        priceAtAddCartDate:
+          type: number
+          format: float
+          example: 12900.59
+        currency:
+          type: string
+          example: ฿
+        discountLabel:
+          type: string
+          example: ถูกลง ฿20 หลังใส่รถเข็น" || "หลังหักส่วนลด
+        minQuantity:
+          type: integer
+          example: 1
+        quantity:
+          type: integer
+          example: 1
+        stock:
+          type: integer
+          example: 9998
+        collectionName:
+          type: string
+          example: white ,1
+        unit:
+          type: string
+          example: กล่อง
+        bundles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Bundle'
+
+    Badge:
+      type: object
+      properties:
+        key:
+          type: string
+          example: icon
+        name:
+          type: string
+          example: icon
+        type:
+          type: string
+          example: icon
+        backgroundColor:
+          type: string
+          example: hex
+        borderColor:
+          type: string
+          example: hex
+        textColor:
+          type: string
+          example: hex
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/BadgeItem'
+
+    BadgeItem:
+      type: object
+      properties:
+        iconUrl:
+          type: string
+          format: uri
+          example: http://cdn.nocnoc.com
+        title:
+          type: string
+          example: ออกใบกำกับภาษีได้
+        description:
+          type: string
+          example: สามารถออกใบกำกับภาษีได้
+
+    Bundle:
+      type: object
+      properties:
+        id:
+          type: string
+          example: hhyy-mmhhxc
+        skuNumber:
+          type: string
+          example: 123456
+        selected:
+          type: boolean
+          example: true
+        title:
+          type: string
+          example: ล้างแอร์
+        imageUrl:
+          type: string
+          format: uri
+          example: http://cdn.nocnoc.com
+        parentId:
+          type: string
+          example: 12005147
+        price:
+          type: number
+          format: float
+          example: 12850.10
+        priceOriginal:
+          type: number
+          format: float
+          example: 12900.01
+        priceAtAddCartDate:
+          type: number
+          format: float
+          example: 12900.01
+        currency:
+          type: string
+          example: ฿
+        discountLabel:
+          type: string
+          example: ถูกลง ฿20 หลังใส่รถเข็น" || "หลังหักส่วนลด
+        minQuantity:
+          type: integer
+          example: 1
+        quantity:
+          type: integer
+          example: 1
+        stock:
+          type: integer
+          example: 9998
+        collectionName:
+          type: string
+          example: ''
+
+    Promotions:
+      type: object
+      properties:
+        shopPromotions:
+          $ref: '#/components/schemas/PromotionDetails'
+        shippingPromotions:
+          $ref: '#/components/schemas/ShippingPromotionDetails'
+
+    PromotionDetails:
+      type: object
+      properties:
+        discount:
+          type: number
+          format: float
+          example: 5000.10
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PromotionItem'
+
+    ShippingPromotionDetails:
+      type: object
+      properties:
+        discount:
+          type: number
+          format: float
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShippingPromotionItem'
+
+    PromotionItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 182924
+        title:
+          type: string
+          example: ส่วนลด 12%  สูงสุด 5000 บาท
+        promotionName:
+          type: string
+          example: Summer Sale
+        couponCode:
+          type: string
+          example: NN-12345
+        maxAllowedDiscount:
+          type: number
+          format: float
+          example: 500.10
+        discount:
+          type: number
+          format: float
+          example: 3
+        discountType:
+          type: string
+          example: PERCENT
+        condition:
+          type: string
+          example: รับส่วนลด 12% สูงสุด ฿5,000 เมื่อช้อปครบ ฿10,000
+        description:
+          type: string
+          example: คำอธิบายเพิ่มเติมอะไรก็ได้จ้า
+        startDate:
+          type: string
+          format: date-time
+          example: 2024-03-14T17:00:00Z
+        endDate:
+          type: string
+          format: date-time
+          example: 2024-03-14T17:00:00Z
+
+    ShippingPromotionItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 153581
+        shippingType:
+          type: string
+          example: freeshipping
+        promotionName:
+          type: string
+          example: จัดส่งฟรี
+        marketingMessage:
+          type: string
+          example: จัดส่งฟรีทั่วประเทศ
+        shippingMethods:
+          type: array
+          items:
+            type: string
+            example: sellerDelivery
+        startDate:
+          type: string
+          format: date-time
+          example: 2024-03-14T17:00:00Z
+        endDate:
+          type: string
+          format: date-time
+          example: 2024-03-14T17:00:00Z
+
+    Announcement:
+      type: object
+      properties:
+        title:
+          type: string
+          example: ซื้ออีก ฿5466.0 เพื่อซื้อแบบผ่อนชำระ
+        level:
+          type: string
+          example: info
+        key:
+          type: string
+          example: platformintsallment
+
+    UnavailableProductOutOfStock:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 1234
+        skuNumber:
+          type: string
+          example: 10001123
+        type:
+          type: string
+          enum: [OUT_OF_STOCK]
+        price:
+          type: number
+          format: float
+          example: 1294.50
+        priceOriginal:
+          type: number
+          format: float
+          example: 12900.10
+        title:
+          type: string
+          example: โซฟาถูกและดี
+        imageUrl:
+          type: string
+          format: uri
+          example: http://cdn.nocnoc.com
+        collectionName:
+          type: string
+          example: white ,1
+        currency:
+          type: string
+          example: ฿
+
+    UnavailableProductUnavailable:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 1234
+        skuNumber:
+          type: string
+          example: 10001123
+        type:
+          type: string
+          enum: [UNAVAILABLE]
+        title:
+          type: string
+          example: โซฟาถูกและดี
   securitySchemes:
     bearer:
       type: http
