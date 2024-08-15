@@ -1376,7 +1376,28 @@ components:
                     - skuNumber
                     - quantity
                     - sellerId  
-
+        sellers:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 0
+              saleOrders:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    defaultDeliveryOption:
+                      type: object
+                      properties:
+                        carrierId:
+                          type: integer
+                          example: 0
+                    saleOrderRef:
+                      type: string
+                      example: "string"
     SellerDetailRequest:
       type: object
       required:
