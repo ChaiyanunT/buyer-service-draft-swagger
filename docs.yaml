@@ -389,7 +389,79 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponseModel'    
-    
+  
+  /v1/admin/quotation:
+      post:
+        tags:
+          - Admin Quotation
+        summary: for admin create Quotation on behalf of user
+        parameters:
+          - name: x-nocnoc-platform
+            in: header
+            description: app / web
+            required: false
+            schema:
+              type: string
+          - name: x-nocnoc-device-os
+            in: header
+            description: android, ios, desktop, tablet, mobile
+            required: false
+            schema:
+              type: string
+          - name: x-nocnoc-cookie-id
+            in: header
+            description: Required when x-nocnoc-platform is web
+            required: false
+            schema:
+              type: string 
+          - name: x-nocnoc-session-id
+            in: header
+            description: Required when x-nocnoc-platform is web
+            required: false
+            schema:
+              type: string 
+          - name: Accept-Language
+            in: header
+            description: Not Required But Default value en
+            required: false
+            schema:
+              type: string 
+          - name: Authorization
+            in: header
+            description: Token From Login
+            required: true
+            schema:
+              type: string
+        requestBody:
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/adminCreateQuotationRequest'
+        responses:
+            '200':
+              description: Create Quotation Success
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/CreateQuotationResponse'
+            '400':
+              description: Bad Request
+              content:
+                application/json:
+                  schema:
+                    oneOf:
+                      - $ref: '#/components/schemas/errorResponse'
+            '401':
+              description: Unauthorized
+            '403':
+              description: Forbidden
+            '500':
+              description: Internal Server Error
+              content:
+                application/json:
+                  schema:
+                    oneOf:
+                      - $ref: '#/components/schemas/errorResponse'
   /v1/user/cart:
     get:
       tags:
@@ -737,11 +809,9 @@ components:
       type: object
       properties:
         errors:
-          type: array
-          items:
-            type: object
-            required: ["title", "message"]
-            properties:
+          type: object
+          required: ["title", "message"]
+          properties:
               title:
                 type: string
               message:
@@ -1295,6 +1365,14 @@ components:
           items:
             type: object
             $ref: '#/components/schemas/CreateQuotationDetail'
+    adminCreateQuotationRequest:
+      required: ['buyerUserId']
+      allOf:
+        - $ref: '#/components/schemas/CreateQuotationRequest'
+      properties:
+        buyerUserId:
+          type: number
+          example: 6565
     CreateQuotationDetail:
       type: object
       required:
