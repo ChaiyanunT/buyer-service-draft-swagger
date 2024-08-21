@@ -299,7 +299,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponseModel'
+                $ref: '#/components/schemas/errorResponse'
         '401':
           description: Unauthorized
         '403':
@@ -307,13 +307,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponseModel'
+                $ref: '#/components/schemas/errorResponse'
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponseModel'
+                $ref: '#/components/schemas/errorResponse'
     put:
       tags:
         - Quotation
@@ -374,7 +374,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponseModel'
+                $ref: '#/components/schemas/errorResponse'
         '401':
           description: Unauthorized
         '403':
@@ -382,13 +382,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponseModel'
+                $ref: '#/components/schemas/errorResponse'
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponseModel'    
+                $ref: '#/components/schemas/errorResponse'    
   
   /v1/admin/quotation:
       post:
@@ -921,7 +921,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponseModel'
+                $ref: '#/components/schemas/errorResponse'
         '401':
           description: Unauthorized
         '403':
@@ -929,13 +929,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponseModel'
+                $ref: '#/components/schemas/errorResponse'
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponseModel'
+                $ref: '#/components/schemas/errorResponse'
   /v1/user/orders:    
     post:
       summary: Create order
@@ -2659,29 +2659,7 @@ components:
             invalidProducts:
               type: array
               items:
-                $ref: '#/components/schemas/invalidProduct'
-    ErrorResponseModel:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/ErrorDetail'
-    ErrorDetail:
-      type: object
-      required:
-        - title
-        - detail
-      properties:
-        title:
-          type: string
-          format: string
-          example: title
-        detail:
-          type: string
-          format: string
-          example: detail    
+                $ref: '#/components/schemas/invalidProduct'  
     UpdateQuotationDetail:
       type: object
       required:
