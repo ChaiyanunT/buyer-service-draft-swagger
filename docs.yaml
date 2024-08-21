@@ -1279,6 +1279,46 @@ paths:
                     errors:
                       title: "create_order_unsuccessful"
                       message: "create order unsuccessful"
+  /v1/user/orders/{orderNo}/retry-payment:
+      post:
+        tags:
+          - Order
+        parameters:
+          - name: orderNo
+            in: path
+            required: true
+            schema:
+              type: string
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/retryPaymentRequest'
+        responses:
+          '200':
+            description: Success
+            content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/retryPaymentResponse'
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/errorResponse'
+                examples:
+                  errorUnmarshal:
+                    value:
+                      errors:
+                        title: error_unmarshal
+                        message: cannot unmarshal data
+          '404':
+            description: NotFound
+          '401':
+            description: Unauthorize
+          '500':
+            description: internal server error
   /v1/admin/orders:    
     post:
       summary: Admin Create order
@@ -1583,6 +1623,11 @@ paths:
           in: header
           description: Not Required But Default value en
           required: false
+          schema:
+            type: string
+        - name: orderNo
+          in: path
+          required: true
           schema:
             type: string
       security:
@@ -3791,6 +3836,66 @@ components:
         integrationParams:
           type: object
           $ref: '#/components/schemas/integrationParams'
+    retryPaymentRequest:
+      type: object
+      required:
+        - paymentType
+        - redirectUrl
+      properties:
+        paymentType:
+          type: string
+        cardId:
+          type: string
+        ippTerm:
+          type: integer
+        redirectUrl:
+          type: string
+    retryPaymentResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            transactionId:
+              type: string
+            paymentType:
+              type: string
+              enum:
+                - CARD
+                - IPP
+                - QR
+            status:
+              type: string
+            customerRefNo:
+              type: string
+            cardId:
+              type: string
+            amount:
+              type: number
+              format: float64
+              example: 200.56
+            currency:
+              type: string
+              example: THB
+            authorizeUrl:
+              type: string
+            scannableCode:
+              type: string
+            ippTerm:
+              type: integer
+            expiresAt:
+              type: string
+              format: date
+              example: 2024-08-21T00:00:00Z
+            redirectUrl:
+              type: string
+            metadata:
+              type: object
+              properties:
+                checkoutSummary:
+                  type: object
+                ippInfo:
+                  type: object
   securitySchemes:
     bearer:
       type: http
