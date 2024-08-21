@@ -1544,6 +1544,123 @@ paths:
                     errors:
                       title: "create_order_unsuccessful"
                       message: "create order unsuccessful"
+  /v1/admin/orders/{orderNo}:
+    put:
+      tags:
+        - Admin Order
+      parameters:
+        - name: x-nocnoc-platform
+          in: header
+          description: app / web
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-device-os
+          in: header
+          description: android, ios, desktop, tablet, mobile
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-cookie-id
+          in: header
+          description: Required when x-nocnoc-platform is web
+          required: false
+          schema:
+            type: string 
+        - name: x-nocnoc-session-id
+          in: header
+          description: Required when x-nocnoc-platform is web
+          required: false
+          schema:
+            type: string 
+        - name: x-nocnoc-device-id
+          in: header
+          description: Required in guest mode
+          required: false
+          schema:
+            type: string 
+        - name: Accept-Language
+          in: header
+          description: Not Required But Default value en
+          required: false
+          schema:
+            type: string
+      security:
+        - bearer: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/adminUpdateOrderTransactionRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminUpdateOrderTransactionResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorResponse'
+              examples:
+                orderNumberShouldNotNull:
+                  summary: orderNumber should not null
+                  value:
+                    errors:
+                      title: invalid_order_number
+                      message: order_number should not be null
+                transactionIdShouldNotNull:
+                  summary: transactionId should not null
+                  value:
+                      errors: 
+                        title: invalid_transactionId
+                        message: transactionId should not be null
+                orderNotFound:
+                  summary: order not found
+                  value:
+                    errors: 
+                      title: order_not_found
+                      message: order not found
+                orderStatusNotAllow:
+                  summary: order status not allow
+                  value:
+                    errors:
+                      title: order_status_not_allow
+                      message: order status not allow
+                invalidTransactionPattern:
+                  summary: invalid transaction pattern
+                  value:
+                    errors:
+                      title: invalid_transaction_pattern
+                      message: invalid transaction pattern
+                orderNumberIsExpired:
+                  summary: order number is expired
+                  value:
+                    errors:
+                      title: requested_over_expire_time
+                      message: requested has over expired time
+        '403':
+          description: forbidden
+        '401':
+          description: unauthorize
+              
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorResponse'
+              examples:
+                unexpectedError:
+                  summary: unexpected error
+                  value:
+                    errors:
+                      title: unexpected_error
+                      message: unexpected error
+
 components:
   schemas:
     baseQuotationRequest:
@@ -2710,6 +2827,26 @@ components:
               items:
                 $ref: '#/components/schemas/coupons'
     
+    adminUpdateOrderTransactionRequest:
+        type: object
+        required:
+          - transactionId
+        properties:
+          transactionId:
+            type: string
+    adminUpdateOrderTransactionResponse:
+      type: object
+      required:
+        - orderNo
+        - orderStatus
+      properties:
+        orderNo:
+          type: string
+          example: NN-123445678
+        orderStatus:
+          type: string
+          enum:
+            - PLACED
     SellerDetailRequest:
       type: object
       required:
