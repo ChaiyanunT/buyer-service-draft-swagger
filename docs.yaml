@@ -390,6 +390,84 @@ paths:
               schema:
                 $ref: '#/components/schemas/errorResponse'    
   
+  /v1/admin/user/email:
+    get:
+      tags:
+        - Admin User
+      parameters:
+          - name: x-nocnoc-platform
+            in: header
+            description: app / web
+            required: false
+            schema:
+              type: string
+          - name: x-nocnoc-device-os
+            in: header
+            description: android, ios, desktop, tablet, mobile
+            required: false
+            schema:
+              type: string
+          - name: x-nocnoc-cookie-id
+            in: header
+            description: Required when x-nocnoc-platform is web
+            required: false
+            schema:
+              type: string 
+          - name: Accept-Language
+            in: header
+            description: Not Required But Default value en
+            required: false
+            schema:
+              type: string
+          - name: x-nocnoc-id
+            in: header
+            required: true
+            description: nocnoc-id decrypt by local authorizer
+            schema:
+              type: string
+          - name: email
+            in: query
+            required: true
+            schema:
+              type: string
+          - name: userType
+            in: query
+            required: true
+            schema:
+              type: string
+              enum:
+                - BUYER
+                - SELLER
+          - name: orgIdfier
+            in: query
+            required: true
+            schema:
+              type: string
+              enum:
+                - scg
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminUserResponse'
+              examples:
+                Success:
+                  summary: success
+                  value:
+                    userId: 6565
+                    orgIdfier: scg
+                    userEmail: chiyanun@nocnoc.com
+                    userName: chaiyanun@nocnoc.com
+                    status: ACTIVE
+                    privilegeList: CS_ORDER:WRITE_ACCESS
+                Notfound:
+                  summary: user email not found
+                  value:
+                    emptyCredentials: true
+
+
   /v1/admin/quotation:
       post:
         tags:
@@ -1201,6 +1279,46 @@ paths:
                     errors:
                       title: "create_order_unsuccessful"
                       message: "create order unsuccessful"
+  /v1/user/orders/{orderNo}/retry-payment:
+      post:
+        tags:
+          - Order
+        parameters:
+          - name: orderNo
+            in: path
+            required: true
+            schema:
+              type: string
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/retryPaymentRequest'
+        responses:
+          '200':
+            description: Success
+            content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/retryPaymentResponse'
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/errorResponse'
+                examples:
+                  errorUnmarshal:
+                    value:
+                      errors:
+                        title: error_unmarshal
+                        message: cannot unmarshal data
+          '404':
+            description: NotFound
+          '401':
+            description: Unauthorize
+          '500':
+            description: internal server error
   /v1/admin/orders:    
     post:
       summary: Admin Create order
@@ -1466,6 +1584,128 @@ paths:
                     errors:
                       title: "create_order_unsuccessful"
                       message: "create order unsuccessful"
+  /v1/admin/orders/{orderNo}:
+    put:
+      tags:
+        - Admin Order
+      parameters:
+        - name: x-nocnoc-platform
+          in: header
+          description: app / web
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-device-os
+          in: header
+          description: android, ios, desktop, tablet, mobile
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-cookie-id
+          in: header
+          description: Required when x-nocnoc-platform is web
+          required: false
+          schema:
+            type: string 
+        - name: x-nocnoc-session-id
+          in: header
+          description: Required when x-nocnoc-platform is web
+          required: false
+          schema:
+            type: string 
+        - name: x-nocnoc-device-id
+          in: header
+          description: Required in guest mode
+          required: false
+          schema:
+            type: string 
+        - name: Accept-Language
+          in: header
+          description: Not Required But Default value en
+          required: false
+          schema:
+            type: string
+        - name: orderNo
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearer: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/adminUpdateOrderTransactionRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminUpdateOrderTransactionResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorResponse'
+              examples:
+                orderNumberShouldNotNull:
+                  summary: orderNumber should not null
+                  value:
+                    errors:
+                      title: invalid_order_number
+                      message: order_number should not be null
+                transactionIdShouldNotNull:
+                  summary: transactionId should not null
+                  value:
+                      errors: 
+                        title: invalid_transactionId
+                        message: transactionId should not be null
+                orderNotFound:
+                  summary: order not found
+                  value:
+                    errors: 
+                      title: order_not_found
+                      message: order not found
+                orderStatusNotAllow:
+                  summary: order status not allow
+                  value:
+                    errors:
+                      title: order_status_not_allow
+                      message: order status not allow
+                invalidTransactionPattern:
+                  summary: invalid transaction pattern
+                  value:
+                    errors:
+                      title: invalid_transaction_pattern
+                      message: invalid transaction pattern
+                orderNumberIsExpired:
+                  summary: order number is expired
+                  value:
+                    errors:
+                      title: requested_over_expire_time
+                      message: requested has over expired time
+        '403':
+          description: forbidden
+        '401':
+          description: unauthorize
+              
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorResponse'
+              examples:
+                unexpectedError:
+                  summary: unexpected error
+                  value:
+                    errors:
+                      title: unexpected_error
+                      message: unexpected error
+
 components:
   schemas:
     baseQuotationRequest:
@@ -2499,7 +2739,33 @@ components:
         buyerUserId:
           type: number
           example: 6565
-    
+    adminUserResponse:
+      type: object
+      properties:
+        emptyCredentials: 
+            type: boolean
+        userId:
+          type: integer
+          format: int64
+        orgIdfier:
+          type: string
+          example: scg
+        userEmail:
+          type: string
+          example: xxx@nocnoc.com
+        userName:
+          type: string
+        status:
+          type: string
+          enum:
+            - DELETE_REQUESTED
+            - DELETED
+            - ACTIVE
+        privilegeList:
+          type: array
+          items:
+            type: string
+            example: CS_ORDER:WRITE_ACCESS
     bestPromotionResponse:
       type: object
       properties:
@@ -2606,6 +2872,26 @@ components:
               items:
                 $ref: '#/components/schemas/coupons'
     
+    adminUpdateOrderTransactionRequest:
+        type: object
+        required:
+          - transactionId
+        properties:
+          transactionId:
+            type: string
+    adminUpdateOrderTransactionResponse:
+      type: object
+      required:
+        - orderNo
+        - orderStatus
+      properties:
+        orderNo:
+          type: string
+          example: NN-123445678
+        orderStatus:
+          type: string
+          enum:
+            - PLACED
     SellerDetailRequest:
       type: object
       required:
@@ -3441,6 +3727,8 @@ components:
           type: string
     taxAddress:
       type: object
+      required:
+        - taxId
       properties:
         addressLine1:
           type: string
@@ -3493,8 +3781,12 @@ components:
       properties:
         authorizeUrl:
           type: string
-        expireAt:
+        expiresAt:
           type: string
+        amount:
+          type: number
+          format: float64
+          example: 2000.57
         msg:
           type: string
         orderNo:
@@ -3544,6 +3836,66 @@ components:
         integrationParams:
           type: object
           $ref: '#/components/schemas/integrationParams'
+    retryPaymentRequest:
+      type: object
+      required:
+        - paymentType
+        - redirectUrl
+      properties:
+        paymentType:
+          type: string
+        cardId:
+          type: string
+        ippTerm:
+          type: integer
+        redirectUrl:
+          type: string
+    retryPaymentResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            transactionId:
+              type: string
+            paymentType:
+              type: string
+              enum:
+                - CARD
+                - IPP
+                - QR
+            status:
+              type: string
+            customerRefNo:
+              type: string
+            cardId:
+              type: string
+            amount:
+              type: number
+              format: float64
+              example: 200.56
+            currency:
+              type: string
+              example: THB
+            authorizeUrl:
+              type: string
+            scannableCode:
+              type: string
+            ippTerm:
+              type: integer
+            expiresAt:
+              type: string
+              format: date
+              example: 2024-08-21T00:00:00Z
+            redirectUrl:
+              type: string
+            metadata:
+              type: object
+              properties:
+                checkoutSummary:
+                  type: object
+                ippInfo:
+                  type: object
   securitySchemes:
     bearer:
       type: http
