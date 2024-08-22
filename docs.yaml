@@ -419,12 +419,6 @@ paths:
             required: false
             schema:
               type: string
-          - name: x-nocnoc-id
-            in: header
-            required: true
-            description: nocnoc-id decrypt by local authorizer
-            schema:
-              type: string
           - name: email
             in: query
             required: true
