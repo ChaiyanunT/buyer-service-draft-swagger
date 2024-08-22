@@ -456,17 +456,9 @@ paths:
                 Success:
                   summary: success
                   value:
-                    userId: 6565
-                    orgIdfier: scg
                     userEmail: chiyanun@nocnoc.com
-                    userName: chaiyanun@nocnoc.com
-                    status: ACTIVE
-                    privilegeList: CS_ORDER:WRITE_ACCESS
-                Notfound:
-                  summary: user email not found
-                  value:
-                    emptyCredentials: true
-
+        '404':
+          description: Not Found
 
   /v1/admin/quotation:
       post:
@@ -2535,13 +2527,13 @@ components:
             type: object
             $ref: '#/components/schemas/CreateQuotationDetail'
     adminCreateQuotationRequest:
-      required: ['buyerUserId']
+      required: ['buyerEmail']
       allOf:
         - $ref: '#/components/schemas/CreateQuotationRequest'
       properties:
-        buyerUserId:
-          type: number
-          example: 6565
+        buyerEmail:
+          type: string
+          example: buyer@email.com
     CreateQuotationDetail:
       type: object
       required:
@@ -2625,13 +2617,13 @@ components:
                       example: "string"
     adminUpdateQuotationRequest:
       required:
-        - buyerUserId
+        - buyerEmail
       allOf:
         - $ref: '#/components/schemas/updateQuotationRequest'
       properties:
-        buyerUserId:
-          type: number
-          example: 6565
+        buyerEmail:
+          type: string
+          example: buyer@email.com
     quotationIppValidationRequest:
       type: object
       required:
@@ -2654,13 +2646,13 @@ components:
           example: true
     adminQuotationIppValidationRequest:
         required:
-          - buyerUserId
+          - buyerEmail
         allOf:
           - $ref: '#/components/schemas/quotationIppValidationRequest'
         properties:
-          buyerUserId:
-            type: number
-            example: 6565
+          buyerEmail:
+            type: string
+            example: buyer@email.com
     quotationIPPValidationResponse:
       type: object
       properties:
@@ -2728,7 +2720,7 @@ components:
     
     adminQuotationBestCouponRequest:
       required:
-        - buyerUserId
+        - buyerEmail
       allOf:
         - $ref: '#/components/schemas/baseQuotationRequest'
       properties:
@@ -2736,36 +2728,15 @@ components:
           type: array
           items:
             type: string
-        buyerUserId:
-          type: number
-          example: 6565
+        buyerEmail:
+          type: string
+          example: buyer@email.com
     adminUserResponse:
       type: object
       properties:
-        emptyCredentials: 
-            type: boolean
-        userId:
-          type: integer
-          format: int64
-        orgIdfier:
-          type: string
-          example: scg
         userEmail:
           type: string
           example: xxx@nocnoc.com
-        userName:
-          type: string
-        status:
-          type: string
-          enum:
-            - DELETE_REQUESTED
-            - DELETED
-            - ACTIVE
-        privilegeList:
-          type: array
-          items:
-            type: string
-            example: CS_ORDER:WRITE_ACCESS
     bestPromotionResponse:
       type: object
       properties:
@@ -3801,7 +3772,7 @@ components:
           type: string
     adminCreateOrderRequest:
       type: object
-      required: ["quotationSignature", "quotationData", "payment", "buyer"]
+      required: ["quotationSignature", "quotationData", "payment", "buyerEmail"]
       properties:
         quotationSignature:
           type: string
@@ -3819,20 +3790,9 @@ components:
         taxAddress:
           type: object
           $ref: '#/components/schemas/taxAddress'
-        buyer:
-          type: object
-          required:
-            - userId
-          properties:
-            userId:
-              type: integer
-              example: 10001
-            email:
-              type: string
-              example: buyer@email.com
-            phone:
-              type: string
-              example: 0812345678
+        buyerEmail:
+          type: string
+          example: buyer@email.com
         integrationParams:
           type: object
           $ref: '#/components/schemas/integrationParams'
