@@ -435,6 +435,7 @@ paths:
                 Success:
                   summary: success
                   value:
+                    userId: 8585
                     userEmail: chiyanun@nocnoc.com
         '404':
           description: Not Found
@@ -2713,6 +2714,9 @@ components:
     adminBuyerEmailResponse:
       type: object
       properties:
+        userId:
+          type: integer
+          example: 7676
         userEmail:
           type: string
           example: xxx@nocnoc.com
