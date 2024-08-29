@@ -148,16 +148,20 @@ paths:
           description: Deleted user address
   /v2/user/address/default:
     get:
-      summary: Get default user address by addressIdfier
+      summary: Get default user address by orgIdfier and buyerEmail
       tags:
         - User Address V2
       parameters:
-        - name: addressIdfier
-          in: path
+        - name: orgIdfier
+          in: query
           required: true
           schema:
             type: string
-            example: "ADDRS_1722410118947"
+        - name: buyerEmail
+          in: query
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: Default user address
