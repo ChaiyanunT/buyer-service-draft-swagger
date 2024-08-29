@@ -8,6 +8,139 @@ externalDocs:
 servers:
   - url: "https://proxy.qa.nocnoc-internal.com/buyer-service"
 paths:
+  /v2/user/address:
+    get:
+      tags:
+        - User Address V2
+      parameters:
+        - name: orgIdfier
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: buyerEmail
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of user address
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/userAddress'
+    post:
+      tags:
+        - User Address V2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userAddress'
+        required: true
+      responses:
+        '201':
+          description: Created user address
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userAddress'
+    delete:
+      tags:
+        - User Address V2
+      parameters:
+        - name: orgIdfier
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: buyerEmail
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: addressIdfier
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Deleted user address
+  /v2/user/address/{buyerEmail}/{addressIdfier}:
+    get:
+      tags:
+        - User Address V2
+      parameters:
+        - in: path
+          name: buyerEmail
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: addressIdfier
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User address
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userAddress'
+  /v2/user/default-address:
+    get:
+      tags:
+        - User Address V2
+      parameters:
+        - name: orgIdfier
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: buyerEmail
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Default user address
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userAddress'
+  /v2/user/address-set-as-default:
+    put:
+      tags:
+        - User Address V2
+      parameters:
+        - name: orgIdfier
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: buyerEmail
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: addressIdfier
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Set user address as default
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userAddress'
   /v1/user/quotation/summary:
     post:
       tags:
@@ -395,35 +528,35 @@ paths:
       tags:
         - Admin Get Buyer Email
       parameters:
-          - name: x-nocnoc-platform
-            in: header
-            description: app / web
-            required: false
-            schema:
-              type: string
-          - name: x-nocnoc-device-os
-            in: header
-            description: android, ios, desktop, tablet, mobile
-            required: false
-            schema:
-              type: string
-          - name: x-nocnoc-cookie-id
-            in: header
-            description: Required when x-nocnoc-platform is web
-            required: false
-            schema:
-              type: string 
-          - name: Accept-Language
-            in: header
-            description: Not Required But Default value en
-            required: false
-            schema:
-              type: string
-          - name: email
-            in: query
-            required: true
-            schema:
-              type: string
+        - name: x-nocnoc-platform
+          in: header
+          description: app / web
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-device-os
+          in: header
+          description: android, ios, desktop, tablet, mobile
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-cookie-id
+          in: header
+          description: Required when x-nocnoc-platform is web
+          required: false
+          schema:
+            type: string 
+        - name: Accept-Language
+          in: header
+          description: Not Required But Default value en
+          required: false
+          schema:
+            type: string
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: Success
@@ -1680,6 +1813,77 @@ paths:
 
 components:
   schemas:
+    userAddress:
+      type: object
+      properties:
+        addressId:
+          type: integer
+          example: 233049
+        addressIdfier:
+          type: string
+          example: "ADDRS_1722410118947"
+        userId:
+          type: integer
+          example: 223334
+        defaultAddress:
+          type: boolean
+          example: true
+        fullName:
+          type: string
+          example: "John Doe"
+        phoneNo:
+          type: string
+          example: "0812345678"
+        phoneVerified:
+          type: boolean
+          example: true
+        city:
+          type: string
+          example: "Bangkok"
+        state:
+          type: string
+          example: "Bangkok"
+        country:
+          type: string
+          example: "Thailand"
+        zipCode:
+          type: string
+          example: "10210"
+        addressLine1:
+          type: string
+          example: "123 Example St"
+        addressLine2:
+          type: string
+          example: ""
+        subDistrictName:
+          type: string
+          example: "Khlong Toei"
+        subDistrictCode:
+          type: string
+          example: "101101"
+        districtName:
+          type: string
+          example: "Khlong Toei"
+        districtCode:
+          type: string
+          example: "1011"
+        additionalPhoneNo:
+          type: string
+          example: "0812345678"
+        landmark:
+          type: string
+          example: "Near BTS"
+        addressType:
+          type: string
+          example: "HOME"
+        alternateAddress:
+          type: string
+        latitude:
+          type: number
+          example: 13.723418
+        longitude:
+          type: number
+          example: 100.476231
     baseQuotationRequest:
       type: object
       required:
