@@ -179,7 +179,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/userAddress'
-  /v2/user/default-address:
+  /v2/user/address/default:
     get:
       tags:
         - User Address V2
@@ -201,7 +201,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/userAddress'
-  /v2/user/address-set-as-default:
+  /v2/user/address/set-as-default:
     put:
       tags:
         - User Address V2
