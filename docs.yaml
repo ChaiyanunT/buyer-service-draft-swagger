@@ -39,6 +39,7 @@ paths:
         content:
           application/json:
             schema:
+              description: Default orgIdfier is "scg", currently not required.
               required:
                 - buyerEmail
                 - addressId
@@ -60,15 +61,9 @@ paths:
                 - longitude
               type: object
               properties:
-                buyerEmail:
-                  type: string
-                  example: buyer@email.com
                 addressId:
                   type: integer
                   example: 233049
-                addressIdfier:
-                  type: string
-                  example: "ADDRS_1722410118947"
                 defaultAddress:
                   type: boolean
                   example: true
@@ -78,9 +73,6 @@ paths:
                 phoneNo:
                   type: string
                   example: "0812345678"
-                phoneVerified:
-                  type: boolean
-                  example: true
                 city:
                   type: string
                   example: "Bangkok"
@@ -96,9 +88,6 @@ paths:
                 addressLine1:
                   type: string
                   example: "123 Example St"
-                addressLine2:
-                  type: string
-                  example: ""
                 subDistrictName:
                   type: string
                   example: "Khlong Toei"
@@ -111,23 +100,9 @@ paths:
                 districtCode:
                   type: string
                   example: "1011"
-                additionalPhoneNo:
-                  type: string
-                  example: "0812345678"
-                landmark:
-                  type: string
-                  example: "Near BTS"
                 addressType:
                   type: string
                   example: "HOME"
-                alternateAddress:
-                  type: string
-                latitude:
-                  type: number
-                  example: 13.723418
-                longitude:
-                  type: number
-                  example: 100.476231
       responses:
         '201':
           description: Created user address
@@ -136,6 +111,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/userAddress'
     delete:
+      summary: Delete user address
       tags:
         - User Address V2
       parameters:
@@ -149,29 +125,25 @@ paths:
           required: true
           schema:
             type: string
-        - name: addressIdfier
+        - name: addressId
           in: query
           required: true
           schema:
-            type: string
+            type: integer
       responses:
         '204':
           description: Deleted user address
-  /v2/user/address/{buyerEmail}/{addressIdfier}:
+  /v2/user/address/{addressId}:
     get:
+      summary: Get one user address by addressId
       tags:
         - User Address V2
       parameters:
         - in: path
-          name: buyerEmail
+          name: addressId
           required: true
           schema:
-            type: string
-        - in: path
-          name: addressIdfier
-          required: true
-          schema:
-            type: string
+            type: integer
       responses:
         '200':
           description: User address
@@ -181,6 +153,7 @@ paths:
                 $ref: '#/components/schemas/userAddress'
   /v2/user/address/default:
     get:
+      summary: Get default user address
       tags:
         - User Address V2
       parameters:
@@ -202,6 +175,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/userAddress'
     put:
+      summary: Update default user address
       tags:
         - User Address V2
       parameters:
@@ -215,14 +189,14 @@ paths:
           required: true
           schema:
             type: string
-        - name: addressIdfier
+        - name: addressId
           in: query
           required: true
           schema:
-            type: string
+            type: integer
       responses:
         '200':
-          description: Set user address as default
+          description: Success
           content:
             application/json:
               schema:
@@ -1938,9 +1912,6 @@ components:
         addressLine1:
           type: string
           example: "123 Example St"
-        addressLine2:
-          type: string
-          example: ""
         subDistrictName:
           type: string
           example: "Khlong Toei"
@@ -1970,6 +1941,9 @@ components:
         longitude:
           type: number
           example: 100.476231
+        orgIdfier:
+          type: string
+          example: "scg"
     baseQuotationRequest:
       type: object
       required:
