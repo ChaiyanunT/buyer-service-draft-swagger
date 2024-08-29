@@ -10,6 +10,7 @@ servers:
 paths:
   /v2/user/address:
     get:
+      summary: Get list of user address by orgIdfier and buyerEmail
       tags:
         - User Address V2
       parameters:
@@ -33,6 +34,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/userAddress'
     post:
+      summary: Create an user address
       tags:
         - User Address V2
       requestBody:
@@ -110,40 +112,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/userAddress'
-    delete:
-      summary: Delete user address
-      tags:
-        - User Address V2
-      parameters:
-        - name: orgIdfier
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: buyerEmail
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: addressId
-          in: query
-          required: true
-          schema:
-            type: integer
-      responses:
-        '204':
-          description: Deleted user address
-  /v2/user/address/{addressId}:
+    
+  /v2/user/address/{addressIdfier}:
     get:
-      summary: Get one user address by addressId
+      summary: Get one user address by addressIdfier
       tags:
         - User Address V2
       parameters:
-        - in: path
-          name: addressId
+        - name: addressIdfier
+          in: path
           required: true
           schema:
-            type: integer
+            type: string
+            example: "ADDRS_1722410118947"
       responses:
         '200':
           description: User address
@@ -151,22 +132,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/userAddress'
-  /v2/user/address/default:
-    get:
-      summary: Get default user address
+    delete:
+      summary: Delete one user address by addressIdfier
       tags:
         - User Address V2
       parameters:
-        - name: orgIdfier
-          in: query
+        - name: addressIdfier
+          in: path
           required: true
           schema:
             type: string
-        - name: buyerEmail
-          in: query
+            example: "ADDRS_1722410118947"
+      responses:
+        '204':
+          description: Deleted user address
+  /v2/user/address/default:
+    get:
+      summary: Get default user address by addressIdfier
+      tags:
+        - User Address V2
+      parameters:
+        - name: addressIdfier
+          in: path
           required: true
           schema:
             type: string
+            example: "ADDRS_1722410118947"
       responses:
         '200':
           description: Default user address
@@ -175,25 +166,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/userAddress'
     put:
-      summary: Update default user address
+      summary: Update default user address by addressIdfier
       tags:
         - User Address V2
       parameters:
-        - name: orgIdfier
-          in: query
+        - name: addressIdfier
+          in: path
           required: true
           schema:
             type: string
-        - name: buyerEmail
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: addressId
-          in: query
-          required: true
-          schema:
-            type: integer
+            example: "ADDRS_1722410118947"
       responses:
         '200':
           description: Success
