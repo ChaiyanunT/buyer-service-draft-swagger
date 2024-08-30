@@ -1813,10 +1813,11 @@ components:
         - districtName
         - districtCode
         - addressType
-        - latitude
-        - longitude
       type: object
       properties:
+        buyerEmail:
+          type: string
+          example: buyer@email.com
         defaultAddress:
           type: boolean
           example: true
