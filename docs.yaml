@@ -41,70 +41,7 @@ paths:
         content:
           application/json:
             schema:
-              description: Default orgIdfier is "scg", currently not required.
-              required:
-                - buyerEmail
-                - addressId
-                - addressIdfier
-                - defaultAddress
-                - fullName
-                - phoneNo
-                - city
-                - state
-                - country
-                - zipCode
-                - addressLine1
-                - subDistrictName
-                - subDistrictCode
-                - districtName
-                - districtCode
-                - addressType
-                - latitude
-                - longitude
-              type: object
-              properties:
-                addressId:
-                  type: integer
-                  example: 233049
-                defaultAddress:
-                  type: boolean
-                  example: true
-                fullName:
-                  type: string
-                  example: "John Doe"
-                phoneNo:
-                  type: string
-                  example: "0812345678"
-                city:
-                  type: string
-                  example: "Bangkok"
-                state:
-                  type: string
-                  example: "Bangkok"
-                country:
-                  type: string
-                  example: "Thailand"
-                zipCode:
-                  type: string
-                  example: "10210"
-                addressLine1:
-                  type: string
-                  example: "123 Example St"
-                subDistrictName:
-                  type: string
-                  example: "Khlong Toei"
-                subDistrictCode:
-                  type: string
-                  example: "101101"
-                districtName:
-                  type: string
-                  example: "Khlong Toei"
-                districtCode:
-                  type: string
-                  example: "1011"
-                addressType:
-                  type: string
-                  example: "HOME"
+              $ref: '#/components/schemas/createUserAddressV2Request'
       responses:
         '201':
           description: Created user address
@@ -1859,6 +1796,67 @@ paths:
 
 components:
   schemas:
+    createUserAddressV2Request:
+      description: Default orgIdfier is "scg", currently not required.
+      required:
+        - buyerEmail
+        - defaultAddress
+        - fullName
+        - phoneNo
+        - city
+        - state
+        - country
+        - zipCode
+        - addressLine1
+        - subDistrictName
+        - subDistrictCode
+        - districtName
+        - districtCode
+        - addressType
+      type: object
+      properties:
+        buyerEmail:
+          type: string
+          example: buyer@email.com
+        defaultAddress:
+          type: boolean
+          example: true
+        fullName:
+          type: string
+          example: "John Doe"
+        phoneNo:
+          type: string
+          example: "0812345678"
+        city:
+          type: string
+          example: "Bangkok"
+        state:
+          type: string
+          example: "Bangkok"
+        country:
+          type: string
+          example: "Thailand"
+        zipCode:
+          type: string
+          example: "10210"
+        addressLine1:
+          type: string
+          example: "123 Example St"
+        subDistrictName:
+          type: string
+          example: "Khlong Toei"
+        subDistrictCode:
+          type: string
+          example: "101101"
+        districtName:
+          type: string
+          example: "Khlong Toei"
+        districtCode:
+          type: string
+          example: "1011"
+        addressType:
+          type: string
+          example: "HOME"
     userAddress:
       type: object
       properties:
