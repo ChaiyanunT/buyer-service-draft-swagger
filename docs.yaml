@@ -25,14 +25,14 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: List of user address
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/userAddress'
+                  $ref: "#/components/schemas/userAddress"
     post:
       summary: Create an user address
       tags:
@@ -41,15 +41,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/createUserAddressV2Request'
+              $ref: "#/components/schemas/createUserAddressV2Request"
       responses:
-        '201':
+        "201":
           description: Created user address
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/userAddress'
-    
+                $ref: "#/components/schemas/userAddress"
+
   /v2/user/address/{addressIdfier}:
     get:
       summary: Get one user address by addressIdfier
@@ -63,12 +63,12 @@ paths:
             type: string
             example: "ADDRS_1722410118947"
       responses:
-        '200':
+        "200":
           description: User address
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/userAddress'
+                $ref: "#/components/schemas/userAddress"
     delete:
       summary: Delete one user address by addressIdfier
       tags:
@@ -81,7 +81,7 @@ paths:
             type: string
             example: "ADDRS_1722410118947"
       responses:
-        '204':
+        "204":
           description: Deleted user address
   /v2/user/address/default:
     get:
@@ -100,66 +100,66 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Default user address
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/userAddress'
+                $ref: "#/components/schemas/userAddress"
     put:
       summary: Update default user address by addressIdfier
       tags:
         - User Address V2
       parameters:
         - name: addressIdfier
-          in: path
+          in: query
           required: true
           schema:
             type: string
             example: "ADDRS_1722410118947"
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/userAddress'
+                $ref: "#/components/schemas/userAddress"
   /v1/user/quotation/summary:
     post:
       tags:
         - Quotation
       parameters:
-       - name: x-nocnoc-platform
-         in: header
-         schema:
-          type: string
-       - name: x-nocnoc-device-os
-         in: header
-         schema:
-          type: string
-       - name: x-cookie-id
-         in: header
-         schema:
-          type: string
-       - name: x-session-id
-         in: header
-         schema: 
-          type: string
-       - name: x-nocnoc-device-id
-         in: header
-         description: device id generate from FE
-         schema:
-          type: string
-       - name: x-request-id
-         in: header
-         schema:
-          type: string
-       - name: x-nocnoc-id
-         in: header
-         required: true
-         description: nocnoc-id decrypt by local authorizer
-         schema:
-          type: string
+        - name: x-nocnoc-platform
+          in: header
+          schema:
+            type: string
+        - name: x-nocnoc-device-os
+          in: header
+          schema:
+            type: string
+        - name: x-cookie-id
+          in: header
+          schema:
+            type: string
+        - name: x-session-id
+          in: header
+          schema:
+            type: string
+        - name: x-nocnoc-device-id
+          in: header
+          description: device id generate from FE
+          schema:
+            type: string
+        - name: x-request-id
+          in: header
+          schema:
+            type: string
+        - name: x-nocnoc-id
+          in: header
+          required: true
+          description: nocnoc-id decrypt by local authorizer
+          schema:
+            type: string
       summary: Calculate price and discount
       description: Calculate price and discount for both product and shipping
       operationId: quotationSummary
@@ -168,22 +168,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/quotationSummaryRequest'
+              $ref: "#/components/schemas/quotationSummaryRequest"
         required: true
       responses:
-        '200':
+        "200":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/quotationSummaryResponse'
-        '400':
+                $ref: "#/components/schemas/quotationSummaryResponse"
+        "400":
           description: Invalid input
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/errorResponse'
+                  - $ref: "#/components/schemas/errorResponse"
               examples:
                 InvalidParameter:
                   summary: invalid parameter
@@ -209,51 +209,51 @@ paths:
                     errors:
                       title: "invalid_quotation_data"
                       detail: "Cannot decode quotationData, plase check request body"
-        '401':
+        "401":
           description: Unauthorize
-        '404':
+        "404":
           description: Not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errorResponse'
-        '403':
+                $ref: "#/components/schemas/errorResponse"
+        "403":
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errorResponse'
-        '500':
+                $ref: "#/components/schemas/errorResponse"
+        "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/errorResponse'
+                  - $ref: "#/components/schemas/errorResponse"
               examples:
                 ExternalServerError:
                   summary: Internal server error
-                  value:  
+                  value:
                     errors:
                       title: "internal_server_error"
                       detail: "Something wrong, or {{some error message}}"
                 UnknownPromotionBusinessType:
                   summary: Unknown promotion business type
-                  value:  
+                  value:
                     errors:
                       title: "unknown_promotion_business_type"
                       detail: "Unknown promotion business type"
-        '502':
+        "502":
           description: External Server Error
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/errorResponse'
+                  - $ref: "#/components/schemas/errorResponse"
               examples:
                 ExternalServerError:
                   summary: External server error
-                  value:  
+                  value:
                     errors:
                       title: "external_server_error"
                       detail: "[Promotion] Get seller promotion sku pricing has error"
@@ -269,14 +269,14 @@ paths:
         - name: x-nocnoc-device-os
           in: header
           schema:
-           type: string
+            type: string
         - name: x-cookie-id
           in: header
           schema:
             type: string
         - name: x-session-id
           in: header
-          schema: 
+          schema:
             type: string
         - name: x-nocnoc-device-id
           in: header
@@ -303,15 +303,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/userOrderListRequest'
+              $ref: "#/components/schemas/userOrderListRequest"
         required: true
-      responses: 
-        '200':
+      responses:
+        "200":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/userOrderListResponse'
+                $ref: "#/components/schemas/userOrderListResponse"
   /v1/user/my-order/{userId}/{orderNo}:
     get:
       tags:
@@ -328,38 +328,37 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Successful response
           content:
-            application/json:    
+            application/json:
               schema:
-                $ref: '#/components/schemas/shipmentDetailResponse'
-        '403':
+                $ref: "#/components/schemas/shipmentDetailResponse"
+        "403":
           description: Forbidden response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/shipmentDetailErrorResponse'
-        '401':
+                $ref: "#/components/schemas/shipmentDetailErrorResponse"
+        "401":
           description: Unauthorize response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/shipmentDetailErrorResponse'
-        '404':
+                $ref: "#/components/schemas/shipmentDetailErrorResponse"
+        "404":
           description: Unauthorize response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/shipmentDetailErrorResponse'
-      
+                $ref: "#/components/schemas/shipmentDetailErrorResponse"
 
   /v1/user/quotation:
     post:
       tags:
         - Quotation
       summary: Create Quotation
-      description: ''
+      description: ""
       operationId: Create Quotation
       parameters:
         - name: x-nocnoc-platform
@@ -379,19 +378,19 @@ paths:
           description: Required when x-nocnoc-platform is web
           required: false
           schema:
-            type: string 
+            type: string
         - name: x-nocnoc-session-id
           in: header
           description: Required when x-nocnoc-platform is web
           required: false
           schema:
-            type: string 
+            type: string
         - name: Accept-Language
           in: header
           description: Not Required But Default value en
           required: false
           schema:
-            type: string 
+            type: string
         - name: Authorization
           in: header
           description: Token From Login
@@ -402,39 +401,39 @@ paths:
         content:
           application/json:
             schema:
-               $ref: '#/components/schemas/CreateQuotationRequest'
+              $ref: "#/components/schemas/CreateQuotationRequest"
       responses:
-        '200':
+        "200":
           description: products with delivery options
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/quotationResponse'
-        '400':
+                $ref: "#/components/schemas/quotationResponse"
+        "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errorResponse'
-        '401':
+                $ref: "#/components/schemas/errorResponse"
+        "401":
           description: Unauthorized
-        '403':
+        "403":
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errorResponse'
-        '500':
+                $ref: "#/components/schemas/errorResponse"
+        "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errorResponse'
+                $ref: "#/components/schemas/errorResponse"
     put:
       tags:
         - Quotation
       summary: Update Quotation
-      description: ''
+      description: ""
       operationId: Update Quotation
       parameters:
         - name: x-nocnoc-platform
@@ -454,19 +453,19 @@ paths:
           description: Required when x-nocnoc-platform is web
           required: false
           schema:
-            type: string 
+            type: string
         - name: x-nocnoc-session-id
           in: header
           description: Required when x-nocnoc-platform is web
           required: false
           schema:
-            type: string 
+            type: string
         - name: Accept-Language
           in: header
           description: Not Required But Default value en
           required: false
           schema:
-            type: string 
+            type: string
         - name: Authorization
           in: header
           description: Token From Login
@@ -477,35 +476,35 @@ paths:
         content:
           application/json:
             schema:
-               $ref: '#/components/schemas/updateQuotationRequest'
+              $ref: "#/components/schemas/updateQuotationRequest"
       responses:
-        '200':
+        "200":
           description: products with delivery options
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/quotationResponse'
-        '400':
+                $ref: "#/components/schemas/quotationResponse"
+        "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errorResponse'
-        '401':
+                $ref: "#/components/schemas/errorResponse"
+        "401":
           description: Unauthorized
-        '403':
+        "403":
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errorResponse'
-        '500':
+                $ref: "#/components/schemas/errorResponse"
+        "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errorResponse'    
-  
+                $ref: "#/components/schemas/errorResponse"
+
   /v1/admin/buyer/email:
     get:
       tags:
@@ -528,7 +527,7 @@ paths:
           description: Required when x-nocnoc-platform is web
           required: false
           schema:
-            type: string 
+            type: string
         - name: Accept-Language
           in: header
           description: Not Required But Default value en
@@ -541,152 +540,152 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/adminBuyerEmailResponse'
+                $ref: "#/components/schemas/adminBuyerEmailResponse"
               examples:
                 Success:
                   summary: success
                   value:
                     userId: 8585
                     userEmail: chiyanun@nocnoc.com
-        '404':
+        "404":
           description: Not Found
 
   /v1/admin/quotation:
-      post:
-        tags:
-          - Admin Quotation
-        summary: for admin create Quotation on behalf of user
-        parameters:
-          - name: x-nocnoc-platform
-            in: header
-            description: app / web
-            required: false
+    post:
+      tags:
+        - Admin Quotation
+      summary: for admin create Quotation on behalf of user
+      parameters:
+        - name: x-nocnoc-platform
+          in: header
+          description: app / web
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-device-os
+          in: header
+          description: android, ios, desktop, tablet, mobile
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-cookie-id
+          in: header
+          description: Required when x-nocnoc-platform is web
+          required: false
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          description: Not Required But Default value en
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-id
+          in: header
+          required: true
+          description: nocnoc-id decrypt by local authorizer
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
             schema:
-              type: string
-          - name: x-nocnoc-device-os
-            in: header
-            description: android, ios, desktop, tablet, mobile
-            required: false
-            schema:
-              type: string
-          - name: x-nocnoc-cookie-id
-            in: header
-            description: Required when x-nocnoc-platform is web
-            required: false
-            schema:
-              type: string 
-          - name: Accept-Language
-            in: header
-            description: Not Required But Default value en
-            required: false
-            schema:
-              type: string
-          - name: x-nocnoc-id
-            in: header
-            required: true
-            description: nocnoc-id decrypt by local authorizer
-            schema:
-              type: string
-        requestBody:
+              $ref: "#/components/schemas/adminCreateQuotationRequest"
+      responses:
+        "200":
+          description: Create Quotation Success
           content:
             application/json:
               schema:
-                 $ref: '#/components/schemas/adminCreateQuotationRequest'
-        responses:
-            '200':
-              description: Create Quotation Success
-              content:
-                application/json:
-                  schema:
-                    $ref: '#/components/schemas/quotationResponse'
-            '400':
-              description: Bad Request
-              content:
-                application/json:
-                  schema:
-                    oneOf:
-                      - $ref: '#/components/schemas/errorResponse'
-            '401':
-              description: Unauthorized
-            '403':
-              description: Forbidden
-            '500':
-              description: Internal Server Error
-              content:
-                application/json:
-                  schema:
-                    oneOf:
-                      - $ref: '#/components/schemas/errorResponse'
-      put:
-        tags:
-          - Admin Quotation
-        summary: Admin use for update quotation data on behalf of user
-        parameters:
-          - name: x-nocnoc-platform
-            in: header
-            description: app / web
-            required: false
-            schema:
-              type: string
-          - name: x-nocnoc-device-os
-            in: header
-            description: android, ios, desktop, tablet, mobile
-            required: false
-            schema:
-              type: string
-          - name: x-nocnoc-cookie-id
-            in: header
-            description: Required when x-nocnoc-platform is web
-            required: false
-            schema:
-              type: string 
-          - name: Accept-Language
-            in: header
-            description: Not Required But Default value en
-            required: false
-            schema:
-              type: string
-          - name: x-nocnoc-id
-            in: header
-            required: true
-            description: nocnoc-id decrypt by local authorizer
-            schema:
-              type: string
-        requestBody:
+                $ref: "#/components/schemas/quotationResponse"
+        "400":
+          description: Bad Request
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/adminUpdateQuotationRequest'
-        responses:
-          '200':
-            description: update quotation success
-            content: 
-              application/json:
-                  schema:
-                    $ref: '#/components/schemas/quotationResponse'
-          '400':
-              description: Bad Request
-              content:
-                application/json:
-                  schema:
-                    oneOf:
-                      - $ref: '#/components/schemas/errorResponse'
-          '401':
-              description: Unauthorized
-          '403':
-              description: Forbidden
-          '500':
-              description: Internal Server Error
-              content:
-                application/json:
-                  schema:
-                    oneOf:
-                      - $ref: '#/components/schemas/errorResponse'
+                oneOf:
+                  - $ref: "#/components/schemas/errorResponse"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/errorResponse"
+    put:
+      tags:
+        - Admin Quotation
+      summary: Admin use for update quotation data on behalf of user
+      parameters:
+        - name: x-nocnoc-platform
+          in: header
+          description: app / web
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-device-os
+          in: header
+          description: android, ios, desktop, tablet, mobile
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-cookie-id
+          in: header
+          description: Required when x-nocnoc-platform is web
+          required: false
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          description: Not Required But Default value en
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-id
+          in: header
+          required: true
+          description: nocnoc-id decrypt by local authorizer
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/adminUpdateQuotationRequest"
+      responses:
+        "200":
+          description: update quotation success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/quotationResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/errorResponse"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/errorResponse"
   /v1/admin/quotation/ipp/validation:
     post:
       tags:
@@ -710,19 +709,19 @@ paths:
           description: Required when x-nocnoc-platform is web
           required: false
           schema:
-            type: string 
+            type: string
         - name: x-nocnoc-session-id
           in: header
           description: Required when x-nocnoc-platform is web
           required: false
           schema:
-            type: string 
+            type: string
         - name: Accept-Language
           in: header
           description: Not Required But Default value en
           required: false
           schema:
-            type: string 
+            type: string
         - name: x-nocnoc-id
           in: header
           required: true
@@ -733,32 +732,32 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/adminQuotationIppValidationRequest'
+              $ref: "#/components/schemas/adminQuotationIppValidationRequest"
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#components/schemas/quotationIPPValidationResponse'
-        '400':
-              description: Bad Request
-              content:
-                application/json:
-                  schema:
-                    oneOf:
-                      - $ref: '#/components/schemas/errorResponse'
-        '401':
-              description: Unauthorized
-        '403':
-              description: Forbidden
-        '500':
-              description: Internal Server Error
-              content:
-                application/json:
-                  schema:
-                    oneOf:
-                      - $ref: '#/components/schemas/errorResponse'
+                $ref: "#/components/schemas/quotationIPPValidationResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/errorResponse"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/errorResponse"
   /v1/admin/quotation/promotion/best-coupon:
     post:
       tags:
@@ -781,13 +780,13 @@ paths:
           description: Required when x-nocnoc-platform is web
           required: false
           schema:
-            type: string 
+            type: string
         - name: x-nocnoc-session-id
           in: header
           description: Required when x-nocnoc-platform is web
           required: false
           schema:
-            type: string 
+            type: string
         - name: Accept-Language
           in: header
           description: Not Required But Default value en
@@ -799,37 +798,37 @@ paths:
           required: true
           description: nocnoc-id decrypt by local authorizer
           schema:
-            type: string 
+            type: string
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/adminQuotationBestCouponRequest'
+              $ref: "#/components/schemas/adminQuotationBestCouponRequest"
       responses:
-        '200':
-          description: 'success'
+        "200":
+          description: "success"
           content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/bestPromotionResponse'
-        '400':
-              description: Bad Request
-              content:
-                application/json:
-                  schema:
-                    oneOf:
-                      - $ref: '#/components/schemas/errorResponse'
-        '401':
-              description: Unauthorized
-        '403':
-              description: Forbidden
-        '500':
-              description: Internal Server Error
-              content:
-                application/json:
-                  schema:
-                    oneOf:
-                      - $ref: '#/components/schemas/errorResponse'
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bestPromotionResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/errorResponse"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/errorResponse"
   /v1/admin/quotation/promotion/validation:
     post:
       tags:
@@ -852,13 +851,13 @@ paths:
           description: Required when x-nocnoc-platform is web
           required: false
           schema:
-            type: string 
+            type: string
         - name: x-nocnoc-session-id
           in: header
           description: Required when x-nocnoc-platform is web
           required: false
           schema:
-            type: string 
+            type: string
         - name: Accept-Language
           in: header
           description: Not Required But Default value en
@@ -875,32 +874,32 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/adminQuotationBestCouponRequest'
+              $ref: "#/components/schemas/adminQuotationBestCouponRequest"
       responses:
-        '200':
+        "200":
           description: success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/validationPromotionResponse'
-        '400':
-              description: Bad Request
-              content:
-                application/json:
-                  schema:
-                    oneOf:
-                      - $ref: '#/components/schemas/errorResponse'
-        '401':
-              description: Unauthorized
-        '403':
-              description: Forbidden
-        '500':
-              description: Internal Server Error
-              content:
-                application/json:
-                  schema:
-                    oneOf:
-                      - $ref: '#/components/schemas/errorResponse'
+                $ref: "#/components/schemas/validationPromotionResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/errorResponse"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/errorResponse"
   /v1/admin/quotation/summary:
     post:
       tags:
@@ -920,7 +919,7 @@ paths:
             type: string
         - name: x-session-id
           in: header
-          schema: 
+          schema:
             type: string
         - name: x-request-id
           in: header
@@ -937,22 +936,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/quotationSummaryRequest'
+              $ref: "#/components/schemas/quotationSummaryRequest"
         required: true
       responses:
-        '200':
+        "200":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/quotationSummaryResponse'
-        '400':
+                $ref: "#/components/schemas/quotationSummaryResponse"
+        "400":
           description: Invalid input
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/errorResponse'
+                  - $ref: "#/components/schemas/errorResponse"
               examples:
                 InvalidParameter:
                   summary: invalid parameter
@@ -978,51 +977,51 @@ paths:
                     errors:
                       title: "invalid_quotation_data"
                       detail: "Cannot decode quotationData, plase check request body"
-        '401':
+        "401":
           description: Unauthorize
-        '404':
+        "404":
           description: Not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errorResponse'
-        '403':
+                $ref: "#/components/schemas/errorResponse"
+        "403":
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errorResponse'
-        '500':
+                $ref: "#/components/schemas/errorResponse"
+        "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/errorResponse'
+                  - $ref: "#/components/schemas/errorResponse"
               examples:
                 ExternalServerError:
                   summary: Internal server error
-                  value:  
+                  value:
                     errors:
                       title: "internal_server_error"
                       detail: "Something wrong, or {{some error message}}"
                 UnknownPromotionBusinessType:
                   summary: Unknown promotion business type
-                  value:  
+                  value:
                     errors:
                       title: "unknown_promotion_business_type"
                       detail: "Unknown promotion business type"
-        '502':
+        "502":
           description: External Server Error
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/errorResponse'
+                  - $ref: "#/components/schemas/errorResponse"
               examples:
                 ExternalServerError:
                   summary: External server error
-                  value:  
+                  value:
                     errors:
                       title: "external_server_error"
                       detail: "[Promotion] Get seller promotion sku pricing has error"
@@ -1050,25 +1049,25 @@ paths:
           description: Required when x-nocnoc-platform is web
           required: false
           schema:
-            type: string 
+            type: string
         - name: x-nocnoc-session-id
           in: header
           description: Required when x-nocnoc-platform is web
           required: false
           schema:
-            type: string 
+            type: string
         - name: x-nocnoc-device-id
           in: header
           description: Required in guest mode
           required: false
           schema:
-            type: string 
+            type: string
         - name: Accept-Language
           in: header
           description: Not Required But Default value en
           required: false
           schema:
-            type: string 
+            type: string
         - name: Authorization
           in: header
           description: Token From Login
@@ -1076,82 +1075,82 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Successful response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CartResponse'
-        '400':
+                $ref: "#/components/schemas/CartResponse"
+        "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errorResponse'
-        '401':
+                $ref: "#/components/schemas/errorResponse"
+        "401":
           description: Unauthorized
-        '403':
+        "403":
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errorResponse'
-        '500':
+                $ref: "#/components/schemas/errorResponse"
+        "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errorResponse'
-  /v1/user/orders:    
+                $ref: "#/components/schemas/errorResponse"
+  /v1/user/orders:
     post:
       summary: Create order
       tags:
-      - Order
+        - Order
       parameters:
-      - description: x-nocnoc-platform
-        in: header
-        name: x-nocnoc-platform
-        schema:
-          type: string
-      - description: x-nocnoc-device-os
-        in: header
-        name: x-nocnoc-device-os
-        schema:
-          type: string
-      - description: Not Required when x-nocnoc-platform is web
-        in: header
-        name: x-nocnoc-cookie-id
-        schema:
-          type: string
-      - description: Not Required when x-nocnoc-platform is web
-        in: header
-        name: x-nocnoc-session-id
-        schema:
-          type: string
-      - description: x-nocnoc-device-id
-        in: header
-        name: x-nocnoc-device-id
-        schema:
-          type: string
-      - description: x-nocnoc-id
-        in: header
-        name: x-nocnoc-id
-        schema:
-          type: string
-      - description: accept-language
-        in: header
-        name: accept-language
-        schema:
-          type: string
+        - description: x-nocnoc-platform
+          in: header
+          name: x-nocnoc-platform
+          schema:
+            type: string
+        - description: x-nocnoc-device-os
+          in: header
+          name: x-nocnoc-device-os
+          schema:
+            type: string
+        - description: Not Required when x-nocnoc-platform is web
+          in: header
+          name: x-nocnoc-cookie-id
+          schema:
+            type: string
+        - description: Not Required when x-nocnoc-platform is web
+          in: header
+          name: x-nocnoc-session-id
+          schema:
+            type: string
+        - description: x-nocnoc-device-id
+          in: header
+          name: x-nocnoc-device-id
+          schema:
+            type: string
+        - description: x-nocnoc-id
+          in: header
+          name: x-nocnoc-id
+          schema:
+            type: string
+        - description: accept-language
+          in: header
+          name: accept-language
+          schema:
+            type: string
       requestBody:
         description: create order request
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/createOrderRequest'
+              $ref: "#/components/schemas/createOrderRequest"
         required: true
       responses:
-        '201':
+        "201":
           description: Created operation
           content:
             application/json:
@@ -1162,7 +1161,7 @@ paths:
                   data:
                     type: object
                     oneOf:
-                      - $ref: '#/components/schemas/createOrderResponse'
+                      - $ref: "#/components/schemas/createOrderResponse"
               examples:
                 PaymentTypeQR:
                   summary: paymentType = QR
@@ -1200,13 +1199,13 @@ paths:
                       authorizeUrl: "https://www.example.com"
                       scannableCode: ""
                       transactionId: "zzzzzzzz"
-        '400':
+        "400":
           description: Invalid input
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/errorResponse'
+                  - $ref: "#/components/schemas/errorResponse"
               examples:
                 ErrorUnmarshal:
                   summary: error unmarshal
@@ -1328,27 +1327,27 @@ paths:
                     errors:
                       title: "notfound_user_info"
                       detail: "not found user info"
-        '401':
+        "401":
           description: Unauthorize
-        '404':
+        "404":
           description: Not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errorResponse'
-        '403':
+                $ref: "#/components/schemas/errorResponse"
+        "403":
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errorResponse'
-        '500':
+                $ref: "#/components/schemas/errorResponse"
+        "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/errorResponse'
+                  - $ref: "#/components/schemas/errorResponse"
               examples:
                 CreatedButPaymentFailed:
                   summary: order created but payment failed
@@ -1427,95 +1426,95 @@ paths:
                       title: "create_order_unsuccessful"
                       detail: "create order unsuccessful"
   /v1/user/orders/{orderNo}/retry-payment:
-      post:
-        tags:
-          - Order
-        parameters:
-          - name: orderNo
-            in: path
-            required: true
+    post:
+      tags:
+        - Order
+      parameters:
+        - name: orderNo
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
             schema:
-              type: string
-        requestBody:
+              $ref: "#/components/schemas/retryPaymentRequest"
+      responses:
+        "200":
+          description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/retryPaymentRequest'
-        responses:
-          '200':
-            description: Success
-            content:
-                application/json:
-                  schema:
-                    $ref: '#/components/schemas/retryPaymentResponse'
-          '400':
-            description: Bad Request
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/errorResponse'
-                examples:
-                  errorUnmarshal:
-                    value:
-                      errors:
-                        title: error_unmarshal
-                        detail: cannot unmarshal data
-          '404':
-            description: NotFound
-          '401':
-            description: Unauthorize
-          '500':
-            description: internal server error
-  /v1/admin/orders:    
+                $ref: "#/components/schemas/retryPaymentResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorResponse"
+              examples:
+                errorUnmarshal:
+                  value:
+                    errors:
+                      title: error_unmarshal
+                      detail: cannot unmarshal data
+        "404":
+          description: NotFound
+        "401":
+          description: Unauthorize
+        "500":
+          description: internal server error
+  /v1/admin/orders:
     post:
       summary: Admin Create order
       tags:
-      - Admin Order
+        - Admin Order
       parameters:
-      - description: x-nocnoc-platform
-        in: header
-        name: x-nocnoc-platform
-        schema:
-          type: string
-      - description: x-nocnoc-device-os
-        in: header
-        name: x-nocnoc-device-os
-        schema:
-          type: string
-      - description: Not Required when x-nocnoc-platform is web
-        in: header
-        name: x-nocnoc-cookie-id
-        schema:
-          type: string
-      - description: Not Required when x-nocnoc-platform is web
-        in: header
-        name: x-nocnoc-session-id
-        schema:
-          type: string
-      - description: x-nocnoc-device-id
-        in: header
-        name: x-nocnoc-device-id
-        schema:
-          type: string
-      - description: x-nocnoc-id
-        in: header
-        name: x-nocnoc-id
-        schema:
-          type: string
-      - description: accept-language
-        in: header
-        name: accept-language
-        schema:
-          type: string
+        - description: x-nocnoc-platform
+          in: header
+          name: x-nocnoc-platform
+          schema:
+            type: string
+        - description: x-nocnoc-device-os
+          in: header
+          name: x-nocnoc-device-os
+          schema:
+            type: string
+        - description: Not Required when x-nocnoc-platform is web
+          in: header
+          name: x-nocnoc-cookie-id
+          schema:
+            type: string
+        - description: Not Required when x-nocnoc-platform is web
+          in: header
+          name: x-nocnoc-session-id
+          schema:
+            type: string
+        - description: x-nocnoc-device-id
+          in: header
+          name: x-nocnoc-device-id
+          schema:
+            type: string
+        - description: x-nocnoc-id
+          in: header
+          name: x-nocnoc-id
+          schema:
+            type: string
+        - description: accept-language
+          in: header
+          name: accept-language
+          schema:
+            type: string
       requestBody:
         description: create order request
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/adminCreateOrderRequest'
+              $ref: "#/components/schemas/adminCreateOrderRequest"
         required: true
       responses:
-        '201':
+        "201":
           description: Created operation
           content:
             application/json:
@@ -1526,7 +1525,7 @@ paths:
                   data:
                     type: object
                     oneOf:
-                      - $ref: '#/components/schemas/createOrderResponse'
+                      - $ref: "#/components/schemas/createOrderResponse"
               examples:
                 PaymentTypeQR:
                   summary: paymentType = QR
@@ -1564,13 +1563,13 @@ paths:
                       authorizeUrl: "https://www.example.com"
                       scannableCode: ""
                       transactionId: "zzzzzzzz"
-        '400':
+        "400":
           description: Invalid input
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/errorResponse'
+                  - $ref: "#/components/schemas/errorResponse"
               examples:
                 ErrorUnmarshal:
                   summary: error unmarshal
@@ -1692,27 +1691,27 @@ paths:
                     errors:
                       title: "notfound_user_info"
                       detail: "not found user info"
-        '401':
+        "401":
           description: Unauthorize
-        '404':
+        "404":
           description: Not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errorResponse'
-        '403':
+                $ref: "#/components/schemas/errorResponse"
+        "403":
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errorResponse'
-        '500':
+                $ref: "#/components/schemas/errorResponse"
+        "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/errorResponse'
+                  - $ref: "#/components/schemas/errorResponse"
               examples:
                 CreatedButPaymentFailed:
                   summary: order created but payment failed
@@ -1812,19 +1811,19 @@ paths:
           description: Required when x-nocnoc-platform is web
           required: false
           schema:
-            type: string 
+            type: string
         - name: x-nocnoc-session-id
           in: header
           description: Required when x-nocnoc-platform is web
           required: false
           schema:
-            type: string 
+            type: string
         - name: x-nocnoc-device-id
           in: header
           description: Required in guest mode
           required: false
           schema:
-            type: string 
+            type: string
         - name: Accept-Language
           in: header
           description: Not Required But Default value en
@@ -1842,20 +1841,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/adminUpdateOrderTransactionRequest'
+              $ref: "#/components/schemas/adminUpdateOrderTransactionRequest"
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/adminUpdateOrderTransactionResponse'
-        '400':
+                $ref: "#/components/schemas/adminUpdateOrderTransactionResponse"
+        "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errorResponse'
+                $ref: "#/components/schemas/errorResponse"
               examples:
                 orderNumberShouldNotNull:
                   summary: orderNumber should not null
@@ -1866,13 +1865,13 @@ paths:
                 transactionIdShouldNotNull:
                   summary: transactionId should not null
                   value:
-                      errors: 
-                        title: invalid_transactionId
-                        message: transactionId should not be null
+                    errors:
+                      title: invalid_transactionId
+                      message: transactionId should not be null
                 orderNotFound:
                   summary: order not found
                   value:
-                    errors: 
+                    errors:
                       title: order_not_found
                       message: order not found
                 orderStatusNotAllow:
@@ -1893,17 +1892,83 @@ paths:
                     errors:
                       title: requested_over_expire_time
                       message: requested has over expired time
-        '403':
+        "403":
           description: forbidden
-        '401':
+        "401":
           description: unauthorize
-              
-        '500':
+
+        "500":
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errorResponse'
+                $ref: "#/components/schemas/errorResponse"
+              examples:
+                unexpectedError:
+                  summary: unexpected error
+                  value:
+                    errors:
+                      title: unexpected_error
+                      message: unexpected error
+  /v1/admin/orders/{orderNo}/payment/link:
+    post:
+      tags:
+        - Admin Order
+      parameters:
+        - name: x-nocnoc-platform
+          in: header
+          description: app / web
+          required: false
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          description: Not Required But Default value en
+          required: false
+          schema:
+            type: string
+        - name: orderNo
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearer: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/adminCreateOrderPaymentLinkRequest"
+      responses:
+        "201":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/adminCreateOrderPaymentLinkResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorResponse"
+              examples:
+                badRequest:
+                  summary: bad request
+                  value:
+                    errors:
+                      title: invalid_parameter
+                      message: bad request
+        "403":
+          description: forbidden
+        "401":
+          description: unauthorize
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorResponse"
               examples:
                 unexpectedError:
                   summary: unexpected error
@@ -2060,7 +2125,7 @@ components:
           example: BASE564
     promotionRequest:
       allOf:
-        - $ref: '#/components/schemas/baseQuotationRequest'
+        - $ref: "#/components/schemas/baseQuotationRequest"
       type: object
       properties:
         couponCodes:
@@ -2068,46 +2133,46 @@ components:
           items:
             type: string
     userOrderListRequest:
-        type: object
-        properties:
-          lang:
-            type: string
-            example: th
-          userType:
-            type: string
-            example: BUYER
-            enum:
-              - BUYER
-              - ADMIN
-          locale:
-            type: string
-            example: th
-            enum:
-              - th
-              - en
-          userId:
-            type: number
-            example: 10
-          limit:
-            type: number
-            example: 10
-          page:
-            type: number
-            example: 1
-          tabType:
-            type: string
-            example: OPEN
-          itemType:
-            type: string
-            example: sale-orders
-          filter:
-            type: object
-            properties:
-              searchTerm:
-                type: string
-              orderStatus:
-                type: string
-                example: PAYMENT_PENDING
+      type: object
+      properties:
+        lang:
+          type: string
+          example: th
+        userType:
+          type: string
+          example: BUYER
+          enum:
+            - BUYER
+            - ADMIN
+        locale:
+          type: string
+          example: th
+          enum:
+            - th
+            - en
+        userId:
+          type: number
+          example: 10
+        limit:
+          type: number
+          example: 10
+        page:
+          type: number
+          example: 1
+        tabType:
+          type: string
+          example: OPEN
+        itemType:
+          type: string
+          example: sale-orders
+        filter:
+          type: object
+          properties:
+            searchTerm:
+              type: string
+            orderStatus:
+              type: string
+              example: PAYMENT_PENDING
     userOrderListResponse:
       type: object
       required:
@@ -2115,7 +2180,7 @@ components:
         - data
       properties:
         status:
-          type: string 
+          type: string
           example: SUCCESS
           enum:
             - SUCCESS
@@ -2138,11 +2203,11 @@ components:
             items:
               type: array
               items:
-                $ref: '#/components/schemas/userOrderItem'
+                $ref: "#/components/schemas/userOrderItem"
             cancellable:
               type: boolean
             extraInfo:
-              $ref: '#components/schemas/userOrderExtraInfo'
+              $ref: "#/components/schemas/userOrderExtraInfo"
         errors:
           type: object
           properties:
@@ -2157,10 +2222,10 @@ components:
       type: object
       properties:
         statusFilter:
-          $ref: '#/components/schemas/userOrderStatusFilter'
+          $ref: "#/components/schemas/userOrderStatusFilter"
         cancelReason:
-          $ref: '#/components/schemas/userOrderCancelReason'
-    
+          $ref: "#/components/schemas/userOrderCancelReason"
+
     userOrderStatusFilter:
       type: object
       properties:
@@ -2171,7 +2236,7 @@ components:
           type: array
           items:
             type: string
-          example: 
+          example:
             - "ALL_OPEN_STATUS"
             - "PAYMENT_PENDING"
             - "PAYMENT_EXPIRED"
@@ -2187,7 +2252,7 @@ components:
         ALL:
           type: array
           items:
-            $ref: '#/components/schemas/cancelReasonItem'
+            $ref: "#/components/schemas/cancelReasonItem"
 
     cancelReasonItem:
       type: object
@@ -2230,7 +2295,7 @@ components:
           format: int64
           example: 1722509062000000000
         deliveryAddress:
-          $ref: '#/components/schemas/deliveryAddress'
+          $ref: "#/components/schemas/deliveryAddress"
         orderCanCancel:
           type: boolean
           example: true
@@ -2309,8 +2374,7 @@ components:
           example: "Home"
         alternateAddress:
           type: string
-          example: "string"    
-
+          example: "string"
 
     errorResponse:
       type: object
@@ -2319,18 +2383,18 @@ components:
           type: object
           required: ["title", "detail"]
           properties:
-              title:
-                type: string
-              detail:
-                type: string
-              additionalFields:
-                type: object
+            title:
+              type: string
+            detail:
+              type: string
+            additionalFields:
+              type: object
     ippData:
       type: object
       description: "this object will appear if quotation meet ipp criteria"
       properties:
         descriptions:
-          type: array       
+          type: array
           items:
             type: object
             required:
@@ -2345,7 +2409,7 @@ components:
                 type: string
                 example: บัตรกรุงไทย จำกัด(มหาชน)
               bankNameEn:
-                example:  Krungthai Card
+                example: Krungthai Card
               mdr:
                 type: number
                 format: double
@@ -2355,28 +2419,28 @@ components:
               ippLists:
                 $ref: "#/components/schemas/ippDescriptionItem"
     ippDescriptionItem:
-        type: object
-        required:
-          - id
-          - term
-          - minAmount
-        properties:
-          id:
-            type: number
-            example: 1
-          term:
-            type: number
-            example: 4
-          nocnocSub:
-            type: boolean
-          sellerSub:
-            type: boolean
-          title:
-            type: string
-            example: 4 เดือน
-          minAmount:
-            type: number
-            example: 3000
+      type: object
+      required:
+        - id
+        - term
+        - minAmount
+      properties:
+        id:
+          type: number
+          example: 1
+        term:
+          type: number
+          example: 4
+        nocnocSub:
+          type: boolean
+        sellerSub:
+          type: boolean
+        title:
+          type: string
+          example: 4 เดือน
+        minAmount:
+          type: number
+          example: 3000
     quotationSummaryRequest:
       type: object
       required:
@@ -2392,7 +2456,7 @@ components:
           example: base64
         couponCodes:
           type: array
-          items: 
+          items:
             type: string
           example: [""]
         sellers:
@@ -2400,8 +2464,8 @@ components:
           items:
             type: object
             required:
-            - id
-            - saleOrders
+              - id
+              - saleOrders
             properties:
               id:
                 type: number
@@ -2410,8 +2474,8 @@ components:
                 items:
                   type: object
                   required:
-                  - saleOrderRef
-                  - defaultDeliveryOption
+                    - saleOrderRef
+                    - defaultDeliveryOption
                   properties:
                     saleOrderRef:
                       type: string
@@ -2432,7 +2496,17 @@ components:
       properties:
         data:
           type: object
-          required: ["appliedPromotions", "totalPrice", "totalDiscount", "totalPriceAfterDiscount", "totalShippingFee", "totalShippingFeeAfterDiscount", "grandTotalDiscount", "grandTotal"]
+          required:
+            [
+              "appliedPromotions",
+              "totalPrice",
+              "totalDiscount",
+              "totalPriceAfterDiscount",
+              "totalShippingFee",
+              "totalShippingFeeAfterDiscount",
+              "grandTotalDiscount",
+              "grandTotal",
+            ]
           properties:
             quotationData:
               type: string
@@ -2446,7 +2520,7 @@ components:
               type: array
               items:
                 properties:
-                  promotionId: 
+                  promotionId:
                     type: number
                     example: 12345678
                   couponCode:
@@ -2531,25 +2605,25 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/shipment'
+            $ref: "#/components/schemas/shipment"
     shipmentDetailErrorResponse:
-        type: object
-        properties:
-          status:
-            type: string
-            example: FAILED
-          errors:
-            type: array
-            items:
-              type: object
-              properties:
-                code:
-                  type: string
-                  example: Forbidden
-                ref:
-                  type: string
-                msg:
-                  type: string
+      type: object
+      properties:
+        status:
+          type: string
+          example: FAILED
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                example: Forbidden
+              ref:
+                type: string
+              msg:
+                type: string
     shipment:
       type: object
       properties:
@@ -2669,7 +2743,7 @@ components:
         listShipmentItems:
           type: array
           items:
-            $ref: '#/components/schemas/shipmentItem'
+            $ref: "#/components/schemas/shipmentItem"
     shipmentItem:
       type: object
       properties:
@@ -2686,7 +2760,7 @@ components:
         salePrice:
           type: string
         productInfo:
-          $ref: '#/components/schemas/productInfo'
+          $ref: "#/components/schemas/productInfo"
         itemId:
           type: integer
         imageUrl:
@@ -2739,7 +2813,7 @@ components:
         id:
           type: integer
         brand:
-          $ref: '#/components/schemas/brand'
+          $ref: "#/components/schemas/brand"
         skuId:
           type: integer
         collectionId:
@@ -2873,11 +2947,11 @@ components:
           type: array
           items:
             type: object
-            $ref: '#/components/schemas/CreateQuotationDetail'
+            $ref: "#/components/schemas/CreateQuotationDetail"
     adminCreateQuotationRequest:
-      required: ['buyerEmail']
+      required: ["buyerEmail"]
       allOf:
-        - $ref: '#/components/schemas/CreateQuotationRequest'
+        - $ref: "#/components/schemas/CreateQuotationRequest"
       properties:
         buyerEmail:
           type: string
@@ -2907,7 +2981,7 @@ components:
                 example: "tv 42 inch"
               quantity:
                 type: integer
-                example: 10  
+                example: 10
     updateQuotationRequest:
       required:
         - quotationData
@@ -2921,26 +2995,26 @@ components:
           type: string
           example: base64
         addressId:
-              type: number
-              example: 11150
+          type: number
+          example: 11150
         invalidProducts:
-              type: array
-              items:
-                type: object
-                properties:
-                  skuNumber:
-                    type: string
-                    example: 123
-                  quantity:
-                    type: number
-                    example: 5
-                  sellerId:
-                    type: number
-                    example: 1234
-                    required:
-                    - skuNumber
-                    - quantity
-                    - sellerId  
+          type: array
+          items:
+            type: object
+            properties:
+              skuNumber:
+                type: string
+                example: 123
+              quantity:
+                type: number
+                example: 5
+              sellerId:
+                type: number
+                example: 1234
+                required:
+                  - skuNumber
+                  - quantity
+                  - sellerId
         sellers:
           type: array
           items:
@@ -2967,7 +3041,7 @@ components:
       required:
         - buyerEmail
       allOf:
-        - $ref: '#/components/schemas/updateQuotationRequest'
+        - $ref: "#/components/schemas/updateQuotationRequest"
       properties:
         buyerEmail:
           type: string
@@ -2986,21 +3060,21 @@ components:
           example: BASE64
         couponCodes:
           type: array
-          items: 
+          items:
             type: string
           example: [""]
         useNocnocPoint:
           type: boolean
           example: true
     adminQuotationIppValidationRequest:
-        required:
-          - buyerEmail
-        allOf:
-          - $ref: '#/components/schemas/quotationIppValidationRequest'
-        properties:
-          buyerEmail:
-            type: string
-            example: buyer@email.com
+      required:
+        - buyerEmail
+      allOf:
+        - $ref: "#/components/schemas/quotationIppValidationRequest"
+      properties:
+        buyerEmail:
+          type: string
+          example: buyer@email.com
     quotationIPPValidationResponse:
       type: object
       properties:
@@ -3065,12 +3139,12 @@ components:
               minAmount:
                 type: number
                 example: 3000
-    
+
     adminQuotationBestCouponRequest:
       required:
         - buyerEmail
       allOf:
-        - $ref: '#/components/schemas/baseQuotationRequest'
+        - $ref: "#/components/schemas/baseQuotationRequest"
       properties:
         couponCodes:
           type: array
@@ -3099,12 +3173,12 @@ components:
               example: 3
         data:
           type: object
-          required: ['coupons']
+          required: ["coupons"]
           properties:
             coupons:
               type: array
               items:
-                $ref: '#/components/schemas/coupons'
+                $ref: "#/components/schemas/coupons"
     couponItem:
       type: object
       required: ["id", "couponCode", "selected", "startedAt", "endedAt"]
@@ -3114,8 +3188,8 @@ components:
           example: 1245
         title:
           type: string
-          example: 'ส่วนลด 12% สูงสุด ฿5,000'
-          description: 'bff will add this field for support frontend'
+          example: "ส่วนลด 12% สูงสุด ฿5,000"
+          description: "bff will add this field for support frontend"
         promotionName:
           type: string
           example: summer sale
@@ -3137,11 +3211,11 @@ components:
             - FLAT
         condition:
           type: string
-          description: 'TBC locale logic should in bff or be'
-          example: 'รับส่วนลด 12% สูงสุด ฿5,000 เมื่อช้อปครบ ฿10,000' 
+          description: "TBC locale logic should in bff or be"
+          example: "รับส่วนลด 12% สูงสุด ฿5,000 เมื่อช้อปครบ ฿10,000"
         description:
           type: string
-          example: 'คำอธิบายเพิ่มเติมอะไรก็ได้จ้า' 
+          example: "คำอธิบายเพิ่มเติมอะไรก็ได้จ้า"
           description: field promotionDetails จาก promotion-service
         imageUrl:
           type: string
@@ -3157,7 +3231,7 @@ components:
           example: "2024-04-01T12:00:00Z"
     coupons:
       type: object
-      required: ["key", "limitApplies", 'items']
+      required: ["key", "limitApplies", "items"]
       properties:
         key:
           type: string
@@ -3167,15 +3241,15 @@ components:
             - platform
             - partner
             - voucher
-            
+
         limitApplies:
           type: integer
           example: 1
         items:
           type: array
           items:
-            $ref: '#/components/schemas/couponItem'
-    
+            $ref: "#/components/schemas/couponItem"
+
     validationPromotionResponse:
       type: object
       properties:
@@ -3187,20 +3261,20 @@ components:
               example: 3
         data:
           type: object
-          required: ['coupons']
+          required: ["coupons"]
           properties:
             coupons:
               type: array
               items:
-                $ref: '#/components/schemas/coupons'
-    
+                $ref: "#/components/schemas/coupons"
+
     adminUpdateOrderTransactionRequest:
-        type: object
-        required:
-          - transactionId
-        properties:
-          transactionId:
-            type: string
+      type: object
+      required:
+        - transactionId
+      properties:
+        transactionId:
+          type: string
     adminUpdateOrderTransactionResponse:
       type: object
       required:
@@ -3214,6 +3288,58 @@ components:
           type: string
           enum:
             - PLACED
+    adminCreateOrderPaymentLinkRequest:
+      type: object
+      required:
+        - amount
+        - expiresAt
+      properties:
+        amount:
+          type: number
+          example: 1235.32
+        expiresAt:
+          type: string
+        currency:
+          type: string
+          example: THB
+          default: THB
+    adminCreateOrderPaymentLinkResponse:
+      type: object
+      required:
+        - linkId
+        - paymentLinkUrl
+        - paymentStatusUrl
+      properties:
+        linkId:
+          type: string
+          example: q16j2t7uF2
+        paymentLinkUrl:
+          type: string
+          example: "https://linksplus.omise.co/q16j2t7uF2"
+        paymentStatusUrl:
+          type: string
+          example: "https://linksplus-dashboard.omise.co/en/overview/q16j2t7uF2"
+        createdAt:
+          type: string
+          example: "2024-04-01T12:00:00Z"
+        expiresAt:
+          type: string
+          example: "2024-04-01T12:00:00Z"
+        amount:
+          type: number
+          example: 1235.32
+        orderNumber:
+          type: string
+          example: "NN-123445678"
+        templateId:
+          type: string
+          example: "1253"
+        teamId:
+          type: string
+          example: "123"
+        currency:
+          type: string
+          example: THB
     SellerDetailRequest:
       type: object
       required:
@@ -3226,7 +3352,7 @@ components:
         saleOrders:
           type: array
           items:
-            $ref: '#/components/schemas/SaleOrderDetailRequeset'
+            $ref: "#/components/schemas/SaleOrderDetailRequeset"
     SaleOrderDetailRequeset:
       type: object
       required:
@@ -3242,9 +3368,9 @@ components:
           required:
             - carrierId
           properties:
-           carrierId:
-            type: number
-            example: 12
+            carrierId:
+              type: number
+              example: 12
     quotationResponse:
       type: object
       properties:
@@ -3263,11 +3389,11 @@ components:
               example: base64
             quotation:
               type: object
-              $ref: '#/components/schemas/QuotationDetail'
+              $ref: "#/components/schemas/QuotationDetail"
             invalidProducts:
               type: array
               items:
-                $ref: '#/components/schemas/invalidProduct'  
+                $ref: "#/components/schemas/invalidProduct"
     UpdateQuotationDetail:
       type: object
       required:
@@ -3304,7 +3430,7 @@ components:
         sellers:
           type: array
           items:
-            $ref: '#/components/schemas/SellerDetail'
+            $ref: "#/components/schemas/SellerDetail"
     invalidProduct:
       type: object
       required:
@@ -3342,17 +3468,17 @@ components:
           type: string
           example: ฿
         categoryId:
-            type: number
-            example: 12245
+          type: number
+          example: 12245
         category:
-            type: string
-            example: Electronic Appliances
+          type: string
+          example: Electronic Appliances
         subCategory:
-            type: string
-            example: Air Conditioners
+          type: string
+          example: Air Conditioners
         subSubCategory:
-            type: string
-            example: Air Conditioner  
+          type: string
+          example: Air Conditioner
     SellerDetail:
       type: object
       required:
@@ -3375,7 +3501,7 @@ components:
         tags:
           type: array
           items:
-            $ref: '#/components/schemas/TagDetail'
+            $ref: "#/components/schemas/TagDetail"
         promotion:
           type: object
           properties:
@@ -3389,7 +3515,7 @@ components:
         saleOrders:
           type: array
           items:
-            $ref: '#/components/schemas/SaleOrderDetail'
+            $ref: "#/components/schemas/SaleOrderDetail"
     SaleOrderDetail:
       type: object
       required:
@@ -3405,19 +3531,19 @@ components:
         products:
           type: array
           items:
-            $ref: '#/components/schemas/ProductDetail'
+            $ref: "#/components/schemas/ProductDetail"
         defaultDeliveryOption:
           type: object
           required:
             - carrierId
           properties:
-           carrierId:
-            type: number
-            example: 12
+            carrierId:
+              type: number
+              example: 12
         deliveryOptions:
           type: array
           items:
-            $ref: '#/components/schemas/DeliveryOptionDetail'
+            $ref: "#/components/schemas/DeliveryOptionDetail"
     ProductDetail:
       type: object
       required:
@@ -3441,7 +3567,7 @@ components:
         badges:
           type: array
           items:
-            $ref: '#/components/schemas/BadgeDetail'
+            $ref: "#/components/schemas/BadgeDetail"
         price:
           type: number
           example: 120.12
@@ -3516,7 +3642,6 @@ components:
                 type: string
                 example: สามารถออกใบกำกับภาษีได้
 
-          
     TagDetail:
       type: object
       required:
@@ -3558,12 +3683,12 @@ components:
         maxExpectedDeliveryTime:
           type: string
           format: date-time
-        expectedDeliveryDateLabel: 
+        expectedDeliveryDateLabel:
           type: string
-          example: 'รับได้ตั้งแต่'
-        expectedDeliveryDate: 
+          example: "รับได้ตั้งแต่"
+        expectedDeliveryDate:
           type: string
-          example: '25 เม.ย.65 - 30 เม.ย. 65'
+          example: "25 เม.ย.65 - 30 เม.ย. 65"
 
         finalShippingCost:
           type: number
@@ -3599,13 +3724,13 @@ components:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/Data'
+          $ref: "#/components/schemas/Data"
         unavailableProducts:
           type: array
           items:
             oneOf:
-              - $ref: '#/components/schemas/UnavailableProductOutOfStock'
-              - $ref: '#/components/schemas/UnavailableProductUnavailable'
+              - $ref: "#/components/schemas/UnavailableProductOutOfStock"
+              - $ref: "#/components/schemas/UnavailableProductUnavailable"
     Data:
       type: object
       properties:
@@ -3618,11 +3743,11 @@ components:
         sellers:
           type: array
           items:
-            $ref: '#/components/schemas/Seller'
+            $ref: "#/components/schemas/Seller"
         announcements:
           type: array
           items:
-            $ref: '#/components/schemas/Announcement'
+            $ref: "#/components/schemas/Announcement"
 
     Seller:
       type: object
@@ -3644,13 +3769,13 @@ components:
         tags:
           type: array
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
         products:
           type: array
           items:
-            $ref: '#/components/schemas/Product'
+            $ref: "#/components/schemas/Product"
         promotions:
-          $ref: '#/components/schemas/Promotions'
+          $ref: "#/components/schemas/Promotions"
 
     Tag:
       type: object
@@ -3695,7 +3820,7 @@ components:
         badges:
           type: array
           items:
-            $ref: '#/components/schemas/Badge'
+            $ref: "#/components/schemas/Badge"
         price:
           type: number
           format: float
@@ -3744,7 +3869,7 @@ components:
         bundles:
           type: array
           items:
-            $ref: '#/components/schemas/Bundle'
+            $ref: "#/components/schemas/Bundle"
 
     Badge:
       type: object
@@ -3770,7 +3895,7 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/BadgeItem'
+            $ref: "#/components/schemas/BadgeItem"
 
     BadgeItem:
       type: object
@@ -3837,15 +3962,15 @@ components:
           example: 9998
         collectionName:
           type: string
-          example: ''
+          example: ""
 
     Promotions:
       type: object
       properties:
         shopPromotions:
-          $ref: '#/components/schemas/PromotionDetails'
+          $ref: "#/components/schemas/PromotionDetails"
         shippingPromotions:
-          $ref: '#/components/schemas/ShippingPromotionDetails'
+          $ref: "#/components/schemas/ShippingPromotionDetails"
     PromotionDetails:
       type: object
       properties:
@@ -3856,7 +3981,7 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/PromotionItem'
+            $ref: "#/components/schemas/PromotionItem"
     ShippingPromotionDetails:
       type: object
       properties:
@@ -3866,7 +3991,7 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/ShippingPromotionItem'
+            $ref: "#/components/schemas/ShippingPromotionItem"
     PromotionItem:
       type: object
       properties:
@@ -3981,17 +4106,17 @@ components:
           type: string
           example: ฿
         categoryId:
-            type: number
-            example: 12245
+          type: number
+          example: 12245
         category:
-            type: string
-            example: Electronic Appliances
+          type: string
+          example: Electronic Appliances
         subCategory:
-            type: string
-            example: Air Conditioners
+          type: string
+          example: Air Conditioners
         subSubCategory:
-            type: string
-            example: Air Conditioner  
+          type: string
+          example: Air Conditioner
     UnavailableProductUnavailable:
       type: object
       properties:
@@ -4023,13 +4148,13 @@ components:
           type: boolean
         payment:
           type: object
-          $ref: '#/components/schemas/payment'
+          $ref: "#/components/schemas/payment"
         taxAddress:
           type: object
-          $ref: '#/components/schemas/taxAddress'
+          $ref: "#/components/schemas/taxAddress"
         integrationParams:
           type: object
-          $ref: '#/components/schemas/integrationParams'
+          $ref: "#/components/schemas/integrationParams"
     payment:
       required: ["paymentType", "currency"]
       type: object
@@ -4044,7 +4169,7 @@ components:
           type: integer
         paymentType:
           type: string
-          example: "CARD | IPP | QR" 
+          example: "CARD | IPP | QR"
         redirectUrl:
           type: string
     taxAddress:
@@ -4097,7 +4222,7 @@ components:
       properties:
         data:
           type: object
-          $ref: '#/components/schemas/order'
+          $ref: "#/components/schemas/order"
     order:
       type: object
       properties:
@@ -4137,16 +4262,16 @@ components:
           type: boolean
         payment:
           type: object
-          $ref: '#/components/schemas/payment'
+          $ref: "#/components/schemas/payment"
         taxAddress:
           type: object
-          $ref: '#/components/schemas/taxAddress'
+          $ref: "#/components/schemas/taxAddress"
         buyerEmail:
           type: string
           example: buyer@email.com
         integrationParams:
           type: object
-          $ref: '#/components/schemas/integrationParams'
+          $ref: "#/components/schemas/integrationParams"
     retryPaymentRequest:
       type: object
       required:
@@ -4212,7 +4337,6 @@ components:
       type: http
       scheme: bearer
       bearerFormat: "JWT"
-      
+
 security:
   - bearer: []
-
