@@ -3303,29 +3303,22 @@ components:
           type: string
           example: THB
           default: THB
-        templateId:
-          type: string
-          example: "1253"
-          default: <TBD>
-        teamId:
-          type: string
-          example: "123"
-          default: <TBD>
     adminCreateOrderPaymentLinkResponse:
       type: object
       required:
-        - transactionId
+        - linkId
         - paymentLinkUrl
+        - paymentStatusUrl
       properties:
-        transactionId:
+        linkId:
           type: string
           example: q16j2t7uF2
         paymentLinkUrl:
           type: string
           example: "https://linksplus.omise.co/q16j2t7uF2"
-        orderLinkUrl:
+        paymentStatusUrl:
           type: string
-          example: "https://omise.co/xxx"
+          example: "https://linksplus-dashboard.omise.co/en/overview/q16j2t7uF2"
         createdAt:
           type: string
           example: "2024-04-01T12:00:00Z"
