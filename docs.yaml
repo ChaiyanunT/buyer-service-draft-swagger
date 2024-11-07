@@ -608,12 +608,6 @@ paths:
                     errors:
                       title: "invalid_parameter"
                       detail: "Invalid email, please check request body"
-                AlreadyExist:
-                  summary: already exist
-                  value:
-                    errors:
-                      title: "email_already_exist"
-                      detail: "Email already exist"
         "401":
           description: Unauthorized
         "403":
