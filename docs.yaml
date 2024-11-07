@@ -572,6 +572,14 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/adminCreateBuyerRequest"
+            examples:
+              sample1:
+                summary: sample1
+                value:
+                  email: "sample@email.com"
+                  fullName: "sample name"
+                  phoneNumber: "+66812345678"
+                  phoneCountryCode: "+66"
       responses:
         "201":
           description: Success
@@ -584,7 +592,6 @@ paths:
                   summary: success
                   value:
                     userId: 8585
-                    userEmail: "john.doe@gmail.com"
                     status: "ACTIVE"
                     verficationToken: "N3UrrRCnskyCBKLKmSelL7NcZD"
         "400":
