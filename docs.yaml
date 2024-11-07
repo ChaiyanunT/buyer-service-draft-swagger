@@ -593,7 +593,7 @@ paths:
                   value:
                     userId: 8585
                     status: "ACTIVE"
-                    verficationToken: "N3UrrRCnskyCBKLKmSelL7NcZD"
+                    verificationToken: "N3UrrRCnskyCBKLKmSelL7NcZD"
         "400":
           description: Bad Request
           content:
@@ -4428,6 +4428,7 @@ components:
         phoneCountryCode:
           type: string
           example: "+66"
+          description: "optional, default +66"
     adminCreateBuyerResponse:
       type: object
       properties:
