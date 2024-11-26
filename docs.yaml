@@ -210,9 +210,20 @@ paths:
                         }
                       ],
                       ippSuggestion: {
-                        "text": "ช้อปให้ครบ ฿20,000 เพื่อให้ผ่อนชำระได้",
+                        "barType": "min_amount_not_reach",
                         "modalType": "platform_ipp",
-                        "minAmount": 20000
+                        "minAmount": 20000,
+                        "currency": "฿",
+                        "badges": [
+                            {
+                                "key": "installment",
+                                "name": "ผ่อน 0% มีขั้นต่ำ",
+                                "type": "badge",
+                                "backgroundColor": "#F6F7FE",
+                                "borderColor": "#E8ECFD",
+                                "textColor": "#1334CE"
+                            }
+                        ]
                       },
                       coupons: [
                         {
@@ -271,9 +282,19 @@ paths:
                         }
                       ],
                       ippSuggestion: {
-                        "text": "ช้อปให้ครบ ฿10,000 เพื่อให้ผ่อนชำระได้",
+                        "barType": "min_amount_not_reach",
                         "modalType": "seller_ipp",
-                        "minAmount": 10000
+                        "minAmount": 10000,
+                        "badges": [
+                            {
+                                "key": "installment",
+                                "name": "ผ่อน 0% มีขั้นต่ำ",
+                                "type": "badge",
+                                "backgroundColor": "#F6F7FE",
+                                "borderColor": "#E8ECFD",
+                                "textColor": "#1334CE"
+                            }
+                        ]
                       },
                       coupons: [
                         {
@@ -332,9 +353,19 @@ paths:
                         }
                       ],
                       ippSuggestion: {
-                        "text": "เลือกผ่อนได้ เมื่อซื้อ 1 รายการ ต่อคำสั่งซื้อ จากร้านเดียว",
+                        "barType": "more_than_1_sku",
                         "modalType": "seller_ipp",
-                        "minAmount": 10000
+                        "minAmount": 10000,
+                        "badges": [
+                            {
+                                "key": "installment",
+                                "name": "ผ่อน 0% มีขั้นต่ำ",
+                                "type": "badge",
+                                "backgroundColor": "#F6F7FE",
+                                "borderColor": "#E8ECFD",
+                                "textColor": "#1334CE"
+                            }
+                        ]
                       },
                       coupons: [
                         {
@@ -1636,8 +1667,8 @@ paths:
                   summary: error breakdown sale order
                   value:
                     errors:
-                      title: "error_breakdown_sale_order"
-                      detail: "error breakdown sale order"
+                      title: "error_break_down_sale_order"
+                      detail: "error break down sale order"
                 ErrorGetNoncnocDiscountPoint:
                   summary: error get noncnoc discount point
                   value:
@@ -1686,6 +1717,18 @@ paths:
                     errors:
                       title: "create_order_unsuccessful"
                       detail: "create order unsuccessful"
+                ProductPriceOrShippingInvalid:
+                  summary: product price or shipping invalid
+                  value:
+                    errors:
+                      title: "product_price_or_shipping_invalid"
+                      detail: "product price or shipping invalid"
+                CreateOrderInventoryInvalid:
+                  summary: create order inventory invalid
+                  value:
+                    errors:
+                      title: "create_order_inventory_invalid"
+                      detail: "create order inventory invalid"
   /v1/user/orders/{orderNo}/retry-payment:
     post:
       tags:
@@ -1952,6 +1995,18 @@ paths:
                     errors:
                       title: "notfound_user_info"
                       detail: "not found user info"
+                ProductPriceOrShippingInvalid:
+                  summary: product price or shipping invalid
+                  value:
+                    errors:
+                      title: "product_price_or_shipping_invalid"
+                      detail: "product price or shipping invalid"
+                CreateOrderInventoryInvalid:
+                  summary: create order inventory invalid
+                  value:
+                    errors:
+                      title: "create_order_inventory_invalid"
+                      detail: "create order inventory invalid"
         "401":
           description: Unauthorize
         "404":
@@ -2780,15 +2835,24 @@ components:
             ippSuggestion:
               type: object
               properties:
-                text:
+                barType:
                   type: string
-                  example: ช้อปให้ครบ ฿10,000 เพื่อให้ผ่อนชำระได้
+                  enum: [min_amount_not_reach, more_than_1_sku]
+                  example: min_amount_not_reach
                 modalType:
                   type: string
+                  enum: [platform_ipp, seller_ipp]
                   example: platform_ipp
                 minAmount:
                   type: number
                   example: 10000
+                currency:
+                  type: string
+                  example: ฿
+                badges:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Badge"
             coupons:
               type: array
               items:
@@ -3841,7 +3905,7 @@ components:
         badges:
           type: array
           items:
-            $ref: "#/components/schemas/QuotationProductDetailBadge"
+            $ref: "#/components/schemas/Badge"
         price:
           type: number
           example: 120.12
@@ -3869,7 +3933,7 @@ components:
         subSubCategory:
           type: string
           example: Air Conditioner
-    QuotationProductDetailBadge:
+    Badge:
       type: object
       required:
         - backgroundColor
@@ -4094,7 +4158,7 @@ components:
         badges:
           type: array
           items:
-            $ref: "#/components/schemas/ReadCartBadge"
+            $ref: "#/components/schemas/Badge"
         price:
           type: number
           format: float
@@ -4144,47 +4208,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Bundle"
-
-    ReadCartBadge:
-      type: object
-      properties:
-        key:
-          type: string
-          example: icon
-        name:
-          type: string
-          example: icon
-        type:
-          type: string
-          example: icon
-        backgroundColor:
-          type: string
-          example: hex
-        borderColor:
-          type: string
-          example: hex
-        textColor:
-          type: string
-          example: hex
-        items:
-          type: array
-          items:
-            $ref: "#/components/schemas/ReadCartBadgeItem"
-
-    ReadCartBadgeItem:
-      type: object
-      properties:
-        iconUrl:
-          type: string
-          format: uri
-          example: http://cdn.nocnoc.com
-        title:
-          type: string
-          example: ออกใบกำกับภาษีได้
-        description:
-          type: string
-          example: สามารถออกใบกำกับภาษีได้
-
     Bundle:
       type: object
       properties:
