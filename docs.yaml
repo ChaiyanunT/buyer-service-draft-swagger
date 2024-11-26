@@ -214,16 +214,14 @@ paths:
                         "modalType": "platform_ipp",
                         "minAmount": 20000,
                         "currency": "฿",
-                        "badges": [
-                            {
-                                "key": "installment",
-                                "name": "ผ่อน 0% มีขั้นต่ำ",
-                                "type": "badge",
-                                "backgroundColor": "#F6F7FE",
-                                "borderColor": "#E8ECFD",
-                                "textColor": "#1334CE"
-                            }
-                        ]
+                        "badge": {
+                            "key": "installment",
+                            "name": "ผ่อน 0% มีขั้นต่ำ",
+                            "type": "badge",
+                            "backgroundColor": "#F6F7FE",
+                            "borderColor": "#E8ECFD",
+                            "textColor": "#1334CE"
+                        }
                       },
                       coupons: [
                         {
@@ -285,16 +283,14 @@ paths:
                         "barType": "min_amount_not_reach",
                         "modalType": "seller_ipp",
                         "minAmount": 10000,
-                        "badges": [
-                            {
-                                "key": "installment",
-                                "name": "ผ่อน 0% มีขั้นต่ำ",
-                                "type": "badge",
-                                "backgroundColor": "#F6F7FE",
-                                "borderColor": "#E8ECFD",
-                                "textColor": "#1334CE"
-                            }
-                        ]
+                        "badge": {
+                            "key": "installment",
+                            "name": "ผ่อน 0% มีขั้นต่ำ",
+                            "type": "badge",
+                            "backgroundColor": "#F6F7FE",
+                            "borderColor": "#E8ECFD",
+                            "textColor": "#1334CE"
+                        }
                       },
                       coupons: [
                         {
@@ -356,16 +352,14 @@ paths:
                         "barType": "more_than_1_sku",
                         "modalType": "seller_ipp",
                         "minAmount": 10000,
-                        "badges": [
-                            {
-                                "key": "installment",
-                                "name": "ผ่อน 0% มีขั้นต่ำ",
-                                "type": "badge",
-                                "backgroundColor": "#F6F7FE",
-                                "borderColor": "#E8ECFD",
-                                "textColor": "#1334CE"
-                            }
-                        ]
+                        "badge": {
+                            "key": "installment",
+                            "name": "ผ่อน 0% มีขั้นต่ำ",
+                            "type": "badge",
+                            "backgroundColor": "#F6F7FE",
+                            "borderColor": "#E8ECFD",
+                            "textColor": "#1334CE"
+                        }
                       },
                       coupons: [
                         {
@@ -2849,10 +2843,8 @@ components:
                 currency:
                   type: string
                   example: ฿
-                badges:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/Badge"
+                badge:
+                  $ref: "#/components/schemas/Badge"
             coupons:
               type: array
               items:
