@@ -3633,6 +3633,15 @@ components:
           type: string
           example: THB
           default: THB
+        adminIppValidation:
+          required:
+            - buyerEmail
+          allOf:
+            - $ref: "#/components/schemas/quotationIppValidationRequest"
+          properties:
+            buyerEmail:
+              type: string
+              example: buyer@email.com
     adminCreateOrderPaymentLinkResponse:
       type: object
       required:
