@@ -210,6 +210,7 @@ paths:
                         }
                       ],
                       ippSuggestion: {
+                        "text": "ราคาสินค้าหลังหักส่วดลด มีค่าน้อยกว่าขั้นต่ำของโปรโมชั่นซื้อผ่อนของ Nocnoc",
                         "barType": "min_amount_not_reach",
                         "modalType": "platform_ipp",
                         "minAmount": 20000,
@@ -280,6 +281,7 @@ paths:
                         }
                       ],
                       ippSuggestion: {
+                        "text": "ราคาสินค้าหลังหักส่วดลด มีค่าน้อยกว่าขั้นต่ำของโปรโมชั่นซื้อผ่อนของร้านค้า",
                         "barType": "min_amount_not_reach",
                         "modalType": "seller_ipp",
                         "minAmount": 10000,
@@ -349,6 +351,7 @@ paths:
                         }
                       ],
                       ippSuggestion: {
+                        "text": "ต้องมีสินค้าเพียง 1 รายการ (ไม่จำกัดจำนวน) จึงจะผ่านเงื่อนไขโปรโมชั่นซื้อผ่อนของร้านค้า",
                         "barType": "more_than_1_sku",
                         "modalType": "seller_ipp",
                         "minAmount": 10000,
@@ -2829,6 +2832,9 @@ components:
             ippSuggestion:
               type: object
               properties:
+                text:
+                  type: string
+                  example: "ราคาสินค้าหลังหักส่วดลด มีค่าน้อยกว่าขั้นต่ำของโปรโมชั่นซื้อผ่อนของ Nocnoc"
                 barType:
                   type: string
                   enum: [min_amount_not_reach, more_than_1_sku]
