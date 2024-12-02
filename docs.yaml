@@ -190,39 +190,41 @@ paths:
                     data: {
                       quotationData: "<base64>",
                       quotationSignature: "<quotationSignature>",
-                      ipp: [
-                        {
-                          "bankCode": "002",
-                          "bankNameTh": "ธนาคารกรุงเทพ",
-                          "bankNameEn": "Bangkok Bank",
-                          "mdr": 0,
-                          "isActive": true,
-                          "ippLists": [
-                            {
-                              "id": 1,
-                              "term": 4,
-                              "nocnocSub": true,
-                              "sellerSub": false,
-                              "title": "4 เดือน",
-                              "minAmount": 20000,
-                            }
-                          ]
-                        }
-                      ],
-                      ippSuggestion: {
-                        "text": "ราคาสินค้าหลังหักส่วดลด มีค่าน้อยกว่าขั้นต่ำของโปรโมชั่นซื้อผ่อนของ Nocnoc",
-                        "barType": "min_amount_not_reach",
-                        "modalType": "platform_ipp",
-                        "minAmount": 20000,
-                        "currency": "฿",
-                        "badge": {
-                            "key": "installment",
-                            "name": "ผ่อน 0% มีขั้นต่ำ",
-                            "type": "badge",
-                            "backgroundColor": "#F6F7FE",
-                            "borderColor": "#E8ECFD",
-                            "textColor": "#1334CE"
-                        }
+                      ipp: {
+                        descriptions: [
+                          {
+                            "bankCode": "002",
+                            "bankNameTh": "ธนาคารกรุงเทพ",
+                            "bankNameEn": "Bangkok Bank",
+                            "mdr": 0,
+                            "isActive": true,
+                            "ippLists": [
+                              {
+                                "id": 1,
+                                "term": 4,
+                                "nocnocSub": true,
+                                "sellerSub": false,
+                                "title": "4 เดือน",
+                                "minAmount": 20000,
+                              }
+                            ]
+                          }
+                        ],
+                        suggestion: {
+                          "text": "ราคาสินค้าหลังหักส่วดลด มีค่าน้อยกว่าขั้นต่ำของโปรโมชั่นซื้อผ่อนของ Nocnoc",
+                          "barType": "min_amount_not_reach",
+                          "modalType": "platform_ipp",
+                          "minAmount": 20000,
+                          "currency": "฿",
+                          "badge": {
+                              "key": "installment",
+                              "name": "ผ่อน 0% มีขั้นต่ำ",
+                              "type": "badge",
+                              "backgroundColor": "#F6F7FE",
+                              "borderColor": "#E8ECFD",
+                              "textColor": "#1334CE"
+                          }
+                        },
                       },
                       coupons: [
                         {
@@ -261,38 +263,41 @@ paths:
                     data: {
                       quotationData: "<base64>",
                       quotationSignature: "<quotationSignature>",
-                      ipp: [
-                        {
-                          "bankCode": "002",
-                          "bankNameTh": "ธนาคารกรุงเทพ",
-                          "bankNameEn": "Bangkok Bank",
-                          "mdr": 2.5,
-                          "isActive": true,
-                          "ippLists": [
-                            {
-                              "id": 2,
-                              "term": 10,
-                              "nocnocSub": true,
-                              "sellerSub": false,
-                              "title": "10 เดือน",
-                              "minAmount": 10000,
-                            }
-                          ]
-                        }
-                      ],
-                      ippSuggestion: {
-                        "text": "ราคาสินค้าหลังหักส่วดลด มีค่าน้อยกว่าขั้นต่ำของโปรโมชั่นซื้อผ่อนของร้านค้า",
-                        "barType": "min_amount_not_reach",
-                        "modalType": "seller_ipp",
-                        "minAmount": 10000,
-                        "badge": {
-                            "key": "installment",
-                            "name": "ผ่อน 0% มีขั้นต่ำ",
-                            "type": "badge",
-                            "backgroundColor": "#F6F7FE",
-                            "borderColor": "#E8ECFD",
-                            "textColor": "#1334CE"
-                        }
+                      ipp: {
+                        descriptions: [
+                          {
+                            "bankCode": "002",
+                            "bankNameTh": "ธนาคารกรุงเทพ",
+                            "bankNameEn": "Bangkok Bank",
+                            "mdr": 2.5,
+                            "isActive": true,
+                            "ippLists": [
+                              {
+                                "id": 2,
+                                "term": 10,
+                                "nocnocSub": true,
+                                "sellerSub": false,
+                                "title": "10 เดือน",
+                                "minAmount": 10000,
+                              }
+                            ]
+                          }
+                        ],
+                        suggestion: {
+                          "text": "ราคาสินค้าหลังหักส่วดลด มีค่าน้อยกว่าขั้นต่ำของโปรโมชั่นซื้อผ่อนของร้านค้า",
+                          "barType": "min_amount_not_reach",
+                          "modalType": "seller_ipp",
+                          "minAmount": 10000,
+                          "currency": "฿",
+                          "badge": {
+                              "key": "installment",
+                              "name": "ผ่อน 0% มีขั้นต่ำ",
+                              "type": "badge",
+                              "backgroundColor": "#F6F7FE",
+                              "borderColor": "#E8ECFD",
+                              "textColor": "#1334CE"
+                          }
+                        },
                       },
                       coupons: [
                         {
@@ -331,38 +336,41 @@ paths:
                     data: {
                       quotationData: "<base64>",
                       quotationSignature: "<quotationSignature>",
-                      ipp: [
-                        {
-                          "bankCode": "002",
-                          "bankNameTh": "ธนาคารกรุงเทพ",
-                          "bankNameEn": "Bangkok Bank",
-                          "mdr": 2.5,
-                          "isActive": true,
-                          "ippLists": [
-                            {
-                              "id": 2,
-                              "term": 10,
-                              "nocnocSub": true,
-                              "sellerSub": false,
-                              "title": "10 เดือน",
-                              "minAmount": 10000,
-                            }
-                          ]
-                        }
-                      ],
-                      ippSuggestion: {
-                        "text": "ต้องมีสินค้าเพียง 1 รายการ (ไม่จำกัดจำนวน) จึงจะผ่านเงื่อนไขโปรโมชั่นซื้อผ่อนของร้านค้า",
-                        "barType": "more_than_1_sku",
-                        "modalType": "seller_ipp",
-                        "minAmount": 10000,
-                        "badge": {
-                            "key": "installment",
-                            "name": "ผ่อน 0% มีขั้นต่ำ",
-                            "type": "badge",
-                            "backgroundColor": "#F6F7FE",
-                            "borderColor": "#E8ECFD",
-                            "textColor": "#1334CE"
-                        }
+                      ipp: {
+                        descriptions: [
+                          {
+                            "bankCode": "002",
+                            "bankNameTh": "ธนาคารกรุงเทพ",
+                            "bankNameEn": "Bangkok Bank",
+                            "mdr": 2.5,
+                            "isActive": true,
+                            "ippLists": [
+                              {
+                                "id": 2,
+                                "term": 10,
+                                "nocnocSub": true,
+                                "sellerSub": false,
+                                "title": "10 เดือน",
+                                "minAmount": 10000,
+                              }
+                            ]
+                          }
+                        ],
+                        suggestion: {
+                          "text": "ต้องมีสินค้าเพียง 1 รายการ (ไม่จำกัดจำนวน) จึงจะผ่านเงื่อนไขโปรโมชั่นซื้อผ่อนของร้านค้า",
+                          "barType": "more_than_1_sku",
+                          "modalType": "seller_ipp",
+                          "minAmount": 10000,
+                          "currency": "฿",
+                          "badge": {
+                              "key": "installment",
+                              "name": "ผ่อน 0% มีขั้นต่ำ",
+                              "type": "badge",
+                              "backgroundColor": "#F6F7FE",
+                              "borderColor": "#E8ECFD",
+                              "textColor": "#1334CE"
+                          }
+                        },
                       },
                       coupons: [
                         {
@@ -2731,6 +2739,28 @@ components:
                 type: boolean
               ippLists:
                 $ref: "#/components/schemas/ippDescriptionItem"
+        suggestion:
+          type: object
+          properties:
+            text:
+              type: string
+              example: "ราคาสินค้าหลังหักส่วดลด มีค่าน้อยกว่าขั้นต่ำของโปรโมชั่นซื้อผ่อนของ Nocnoc"
+            barType:
+              type: string
+              enum: [min_amount_not_reach, more_than_1_sku]
+              example: min_amount_not_reach
+            modalType:
+              type: string
+              enum: [platform_ipp, seller_ipp]
+              example: platform_ipp
+            minAmount:
+              type: number
+              example: 10000
+            currency:
+              type: string
+              example: ฿
+            badge:
+              $ref: "#/components/schemas/Badge"
     ippDescriptionItem:
       type: object
       required:
@@ -2829,28 +2859,6 @@ components:
               example: <hmac>
             ipp:
               $ref: "#/components/schemas/ippData"
-            ippSuggestion:
-              type: object
-              properties:
-                text:
-                  type: string
-                  example: "ราคาสินค้าหลังหักส่วดลด มีค่าน้อยกว่าขั้นต่ำของโปรโมชั่นซื้อผ่อนของ Nocnoc"
-                barType:
-                  type: string
-                  enum: [min_amount_not_reach, more_than_1_sku]
-                  example: min_amount_not_reach
-                modalType:
-                  type: string
-                  enum: [platform_ipp, seller_ipp]
-                  example: platform_ipp
-                minAmount:
-                  type: number
-                  example: 10000
-                currency:
-                  type: string
-                  example: ฿
-                badge:
-                  $ref: "#/components/schemas/Badge"
             coupons:
               type: array
               items:
