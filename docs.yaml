@@ -2767,7 +2767,7 @@ components:
               type: string
               example: ฿
             badge:
-              $ref: "#/components/schemas/Badge"
+              $ref: "#/components/schemas/ProductBadge"
     ippDescriptionItem:
       type: object
       required:
@@ -3861,7 +3861,7 @@ components:
         tags:
           type: array
           items:
-            $ref: "#/components/schemas/TagDetail"
+            $ref: "#/components/schemas/SellerTagDetail"
         promotion:
           type: object
           properties:
@@ -3927,7 +3927,11 @@ components:
         badges:
           type: array
           items:
-            $ref: "#/components/schemas/Badge"
+            $ref: "#/components/schemas/ProductBadge"
+        tags:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProductTag"
         price:
           type: number
           example: 120.12
@@ -3955,7 +3959,7 @@ components:
         subSubCategory:
           type: string
           example: Air Conditioner
-    Badge:
+    ProductBadge:
       type: object
       required:
         - backgroundColor
@@ -3967,10 +3971,11 @@ components:
       properties:
         key:
           type: string
-          example: example
+          enum: [installment,custom-made,sample,icon,badge,tax-invoice,free-shipping,fully-badge]
+          example: installment
         name:
           type: string
-          example: example
+          example: installment
         type:
           type: string
           example: badge
@@ -4001,21 +4006,40 @@ components:
               description:
                 type: string
                 example: สามารถออกใบกำกับภาษีได้
-
-    TagDetail:
+    ProductTag:
       type: object
       required:
+        - key
+        - name
         - iconUrl
       properties:
         key:
           type: string
+          enum: [e-tax,best-price,choice,craft]
+          example: e-tax
+        name:
+          type: string
+          example: e-tax
+        iconUrl:
+          type: string
+          example: "http://cdn.nocnoc.com/e-tax.svg"
+    SellerTagDetail:
+      type: object
+      required:
+        - key
+        - name
+        - iconUrl
+      properties:
+        key:
+          type: string
+          enum: [quality-shop,mall]
           example: quality-shop
         name:
           type: string
           example: quality-shop
         iconUrl:
           type: string
-          example: "http://cdn.nocnoc.com"
+          example: "http://cdn.nocnoc.com/quality-shop-en.svg"
     DeliveryOptionDetail:
       type: object
       required:
@@ -4129,28 +4153,13 @@ components:
         tags:
           type: array
           items:
-            $ref: "#/components/schemas/Tag"
+            $ref: "#/components/schemas/SellerTagDetail"
         products:
           type: array
           items:
             $ref: "#/components/schemas/ReadCartProduct"
         promotions:
           $ref: "#/components/schemas/Promotions"
-
-    Tag:
-      type: object
-      properties:
-        key:
-          type: string
-          example: quality-shop
-        name:
-          type: string
-          example: quality-shop
-        iconUrl:
-          type: string
-          format: uri
-          example: http://cdn.nocnoc.com/2
-
     ReadCartProduct:
       type: object
       properties:
@@ -4180,7 +4189,11 @@ components:
         badges:
           type: array
           items:
-            $ref: "#/components/schemas/Badge"
+            $ref: "#/components/schemas/ProductBadge"
+        tags:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProductTag"
         price:
           type: number
           format: float
