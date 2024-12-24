@@ -4031,7 +4031,7 @@ components:
       type: object
       description: "show when feature show new product tag is on"
       properties:
-        product_tag:
+        productTag:
           type: array
           items:
             type: string
@@ -4059,19 +4059,19 @@ components:
       type: object
       description: "show when feature show new seller tag is on"
       properties:
-        seller_tag:
+        sellerTag:
           type: array
           items:
             type: string
             description: "ส่งตามที่แสดงบน UI ซึ่งแสดงอย่างใดอย่างหนึ่ง"
             enum: [preferred_seller,mall]
             example: ["mall"]
-        seller_type:
+        sellerType:
           type: string
           description: "authorized กับ official ส่งอย่างใดอย่างหนึ่ง"
           enum: [authorized,official]
           example: official
-        is_preferred_seller:
+        isPreferredSeller:
           type: boolean
           example: true
     DeliveryOptionDetail:
