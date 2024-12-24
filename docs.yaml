@@ -3862,6 +3862,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/SellerTagDetail"
+        analytics:
+          $ref: "#/components/schemas/SellerAnalytics"
         promotion:
           type: object
           properties:
@@ -3932,6 +3934,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ProductTag"
+        analytics:
+          $ref: "#/components/schemas/ProductAnalytics"
         price:
           type: number
           example: 120.12
@@ -4015,14 +4019,25 @@ components:
       properties:
         key:
           type: string
-          enum: [e-tax,best-price,choice,craft]
-          example: e-tax
+          enum: [easy_e_receipt,best_price,nocnoc_choice,nocnoc_craft,nocnoc_0%_installment,seller_0%_installment,seller_free_installation,assembly/installation_required,made_to_order,free_shipping,clearance,nocnoc_connect,tax_invoice]
+          example: easy_e_receipt
         name:
           type: string
-          example: e-tax
+          example: easy_e_receipt
         iconUrl:
           type: string
-          example: "http://cdn.nocnoc.com/e-tax.svg"
+          example: "http://cdn.nocnoc.com/easy_e_receipt.svg"
+    ProductAnalytics:
+      type: object
+      description: "show when feature show new product tag is on"
+      properties:
+        product_tag:
+          type: array
+          items:
+            type: string
+            description: "nocnoc_0%_installment กับ seller_0%_installment เป็นผ่อน 0% ใช้ tag UI เหมือนกัน, assembly/installation_required เฉพาะ PDP, free_shipping เฉพาะหน้า cart"
+            enum: [easy_e_receipt,best_price,nocnoc_choice,nocnoc_craft,nocnoc_0%_installment,seller_0%_installment,seller_free_installation,assembly/installation_required,made_to_order,free_shipping,clearance,nocnoc_connect,tax_invoice]
+            example: ["easy_e_receipt","nocnoc_0%_installment","seller_free_installation","made_to_order","tax_invoice"]
     SellerTagDetail:
       type: object
       required:
@@ -4040,6 +4055,25 @@ components:
         iconUrl:
           type: string
           example: "http://cdn.nocnoc.com/quality-shop-en.svg"
+    SellerAnalytics:
+      type: object
+      description: "show when feature show new seller tag is on"
+      properties:
+        seller_tag:
+          type: array
+          items:
+            type: string
+            description: "ส่งตามที่แสดงบน UI ซึ่งแสดงอย่างใดอย่างหนึ่ง"
+            enum: [preferred_seller,mall]
+            example: ["mall"]
+        seller_type:
+          type: string
+          description: "authorized กับ official ส่งอย่างใดอย่างหนึ่ง"
+          enum: [authorized,official]
+          example: official
+        is_preferred_seller:
+          type: boolean
+          example: true
     DeliveryOptionDetail:
       type: object
       required:
@@ -4154,6 +4188,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/SellerTagDetail"
+        analytics:
+          $ref: "#/components/schemas/SellerAnalytics"
         products:
           type: array
           items:
@@ -4194,6 +4230,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ProductTag"
+        analytics:
+          $ref: "#/components/schemas/ProductAnalytics"
         price:
           type: number
           format: float
