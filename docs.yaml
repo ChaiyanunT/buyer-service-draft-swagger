@@ -3861,7 +3861,7 @@ components:
         tags:
           type: array
           items:
-            $ref: "#/components/schemas/SellerTagDetail"
+            $ref: "#/components/schemas/SellerTag"
         analytics:
           $ref: "#/components/schemas/SellerAnalytics"
         promotion:
@@ -3982,6 +3982,7 @@ components:
           example: installment
         type:
           type: string
+          enum: [fully-badge,badge,icon]
           example: badge
         backgroundColor:
           type: string
@@ -4012,6 +4013,7 @@ components:
                 example: สามารถออกใบกำกับภาษีได้
     ProductTag:
       type: object
+      description: show in front of product title when feature show new product tag is on
       required:
         - key
         - name
@@ -4019,7 +4021,7 @@ components:
       properties:
         key:
           type: string
-          enum: [easy_e_receipt,best_price,nocnoc_choice,nocnoc_craft,nocnoc_0%_installment,seller_0%_installment,seller_free_installation,assembly/installation_required,made_to_order,free_shipping,clearance,nocnoc_connect,tax_invoice]
+          enum: [easy_e_receipt,best_price,nocnoc_choice,nocnoc_craft]
           example: easy_e_receipt
         name:
           type: string
@@ -4038,7 +4040,7 @@ components:
             description: "nocnoc_0%_installment กับ seller_0%_installment เป็นผ่อน 0% ใช้ tag UI เหมือนกัน, assembly/installation_required เฉพาะ PDP, free_shipping เฉพาะหน้า cart"
             enum: [easy_e_receipt,best_price,nocnoc_choice,nocnoc_craft,nocnoc_0%_installment,seller_0%_installment,seller_free_installation,assembly/installation_required,made_to_order,free_shipping,clearance,nocnoc_connect,tax_invoice]
             example: ["easy_e_receipt","nocnoc_0%_installment","seller_free_installation","made_to_order","tax_invoice"]
-    SellerTagDetail:
+    SellerTag:
       type: object
       required:
         - key
@@ -4047,11 +4049,11 @@ components:
       properties:
         key:
           type: string
-          enum: [quality-shop,mall]
-          example: quality-shop
+          enum: [quality_shop,mall]
+          example: quality_shop
         name:
           type: string
-          example: quality-shop
+          example: quality shop
         iconUrl:
           type: string
           example: "http://cdn.nocnoc.com/quality-shop-en.svg"
@@ -4187,7 +4189,7 @@ components:
         tags:
           type: array
           items:
-            $ref: "#/components/schemas/SellerTagDetail"
+            $ref: "#/components/schemas/SellerTag"
         analytics:
           $ref: "#/components/schemas/SellerAnalytics"
         products:
