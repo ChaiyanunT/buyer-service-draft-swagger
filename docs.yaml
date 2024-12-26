@@ -3862,8 +3862,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/SellerTag"
-        analytics:
-          $ref: "#/components/schemas/SellerAnalytics"
+        trackingInfo:
+          $ref: "#/components/schemas/SellerTrackingInfo"
         promotion:
           type: object
           properties:
@@ -3934,8 +3934,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ProductTag"
-        analytics:
-          $ref: "#/components/schemas/ProductAnalytics"
+        trackingInfo:
+          $ref: "#/components/schemas/ProductTrackingInfo"
         price:
           type: number
           example: 120.12
@@ -4029,7 +4029,7 @@ components:
         iconUrl:
           type: string
           example: "http://cdn.nocnoc.com/easy_e_receipt.svg"
-    ProductAnalytics:
+    ProductTrackingInfo:
       type: object
       description: "show when feature show new product tag is on"
       properties:
@@ -4057,7 +4057,7 @@ components:
         iconUrl:
           type: string
           example: "http://cdn.nocnoc.com/quality-shop-en.svg"
-    SellerAnalytics:
+    SellerTrackingInfo:
       type: object
       description: "show when feature show new seller tag is on"
       properties:
@@ -4190,8 +4190,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/SellerTag"
-        analytics:
-          $ref: "#/components/schemas/SellerAnalytics"
+        trackingInfo:
+          $ref: "#/components/schemas/SellerTrackingInfo"
         products:
           type: array
           items:
@@ -4232,8 +4232,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ProductTag"
-        analytics:
-          $ref: "#/components/schemas/ProductAnalytics"
+        trackingInfo:
+          $ref: "#/components/schemas/ProductTrackingInfo"
         price:
           type: number
           format: float
