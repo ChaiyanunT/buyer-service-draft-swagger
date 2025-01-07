@@ -4049,7 +4049,7 @@ components:
       properties:
         key:
           type: string
-          enum: [quality_shop,mall]
+          enum: [quality_shop,mall_official,mall_authorized]
           example: quality_shop
         name:
           type: string
