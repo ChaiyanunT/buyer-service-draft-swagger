@@ -2114,6 +2114,97 @@ paths:
                       title: "create_order_unsuccessful"
                       detail: "create order unsuccessful"
   /v1/admin/orders/{orderNo}:
+    get:
+      tags:
+        - Admin Order
+      parameters:
+        - name: x-nocnoc-platform
+          in: header
+          description: app / web
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-device-os
+          in: header
+          description: android, ios, desktop, tablet, mobile
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-cookie-id
+          in: header
+          description: Required when x-nocnoc-platform is web
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-session-id
+          in: header
+          description: Required when x-nocnoc-platform is web
+          required: false
+          schema:
+            type: string
+        - name: x-nocnoc-device-id
+          in: header
+          description: Required in guest mode
+          required: false
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          description: Not Required But Default value en
+          required: false
+          schema:
+            type: string
+        - name: orderNo
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearer: []
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/adminGetOrderResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorResponse"
+              examples:
+                orderNumberShouldNotNull:
+                  summary: orderNumber should not null
+                  value:
+                    errors:
+                      title: invalid_order_number
+                      message: order_number should not be null
+                orderNotFound:
+                  summary: order not found
+                  value:
+                    errors:
+                      title: order_not_found
+                      message: order not found
+        "403":
+          description: forbidden
+        "401":
+          description: unauthorize
+
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorResponse"
+              examples:
+                unexpectedError:
+                  summary: unexpected error
+                  value:
+                    errors:
+                      title: unexpected_error
+                      message: unexpected error
     put:
       tags:
         - Admin Order
@@ -3618,7 +3709,28 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/coupons"
-
+    adminGetOrderResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          required:
+            - orderNo
+            - orderStatus
+          properties:
+            orderNo:
+              type: string
+              example: NN-123445678
+            orderStatus:
+              type: string
+              enum:
+                - PAYMENT_PENDING
+            paymentAmount:
+              type: number
+              example: 1235.32
+            paymentExpireDt:
+              type: string
+              example: "2024-04-01T12:00:00Z"
     adminUpdateOrderTransactionRequest:
       type: object
       required:
