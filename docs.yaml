@@ -4087,7 +4087,7 @@ components:
       properties:
         key:
           type: string
-          enum: [installment,custom-made,sample,icon,badge,tax-invoice,free-shipping,fully-badge]
+          enum: [clearance,custom-made,tax-invoice,installment,free-shipping,sample]
           example: installment
         name:
           type: string
