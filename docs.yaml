@@ -4133,7 +4133,7 @@ components:
       properties:
         key:
           type: string
-          enum: [easy_e_receipt,best_price,nocnoc_choice,nocnoc_craft]
+          enum: [easy_e_receipt,otop_easy,best_price,nocnoc_choice,nocnoc_craft]
           example: easy_e_receipt
         name:
           type: string
@@ -4145,6 +4145,9 @@ components:
       type: object
       description: "show when feature show new product tag is on"
       properties:
+        isFlashSale:
+          type: boolean
+          example: true
         productTag:
           type: array
           items:
@@ -4152,6 +4155,19 @@ components:
             description: "nocnoc_0%_installment กับ seller_0%_installment เป็นผ่อน 0% ใช้ tag UI เหมือนกัน, assembly/installation_required เฉพาะ PDP, free_shipping เฉพาะหน้า cart"
             enum: [easy_e_receipt,best_price,nocnoc_choice,nocnoc_craft,nocnoc_0%_installment,seller_0%_installment,seller_free_installation,assembly/installation_required,made_to_order,free_shipping,clearance,nocnoc_connect,tax_invoice]
             example: ["easy_e_receipt","nocnoc_0%_installment","seller_free_installation","made_to_order","tax_invoice"]
+    ProductFlashSale:
+      type: object
+      required:
+        - text
+        - iconUrl
+        - endDate
+      properties:
+        text:
+          type: string
+          example: "Flash Sale ถึง 23:59 น."
+        iconUrl:
+          type: string
+          example: "http://cdn.nocnoc.com/flas-sale-icon.svg"
     SellerTag:
       type: object
       required:
@@ -4346,6 +4362,8 @@ components:
             $ref: "#/components/schemas/ProductTag"
         analytics:
           $ref: "#/components/schemas/ProductAnalytics"
+        flashSale:
+          $ref: "#/components/schemas/ProductFlashSale"
         price:
           type: number
           format: float
